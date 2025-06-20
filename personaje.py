@@ -7,6 +7,7 @@ PPM = 30  # pixeles por metro
 class Personaje:
     def __init__(self, mundo, x, y, sprites, controles, nombre='Jugador'):
         self.nombre = nombre
+        self.vida = 100
         self.sprites = sprites
         self.controles = controles
         self.direccion = 1
@@ -16,7 +17,6 @@ class Personaje:
         self.ultimo_update = pygame.time.get_ticks()
         self.en_animacion = False
         self.en_el_aire = False
-        self.vida = 100
         self.rect_golpe = None
         self.ya_golpeo = False
 

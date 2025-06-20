@@ -45,7 +45,6 @@ sprites = {
 }
 
 background_sprites = cargar_sprites_desde_carpeta("assets/sprites/fondo", tamaño=(ANCHO, ALTO))
-print("Sprites cargados:", sprites)
 
 controles = {
     "izquierda": pygame.K_a,
@@ -81,6 +80,7 @@ while ejecutando:
     teclas = pygame.key.get_pressed()
     jugador.manejar_eventos(teclas)
     jugador2.manejar_eventos(teclas)
+
     # Avanzar física
     mundo.Step(1.0 / FPS, 6, 2)
 
@@ -90,6 +90,7 @@ while ejecutando:
     jugador2.chequear_golpe(jugador)
     jugador.actualizar_direccion_personaje(jugador2)
     jugador2.actualizar_direccion_personaje(jugador)
+
     # Dibujar
     fondo.actualizar()
     fondo.dibujar(pantalla)
