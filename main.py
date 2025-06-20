@@ -1,77 +1,105 @@
 import pygame
-from personaje import Personaje  # Asumiendo que la clase está en personaje.py
+from Box2D.b2 import world
 import os
+from personaje import Personaje  # asumimos que guardaste la clase arriba aquí
+from fondo import Fondo  # asumimos que guardaste la clase arriba aquí
 
-# Inicializar Pygame
 pygame.init()
-
-# Configuración de pantalla
-ANCHO, ALTO = 1024, 768
+ANCHO, ALTO = 800, 500
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
-pygame.display.set_caption("Juego de Pelea - Demo")
-fondo = pygame.image.load("assets/background.png").convert()
-fondo = pygame.transform.scale(fondo, (ANCHO, ALTO))
+pygame.display.set_caption("Pelea con Box2D")
 
-# Reloj para controlar FPS
 clock = pygame.time.Clock()
-FPS = 60
+FPS = 30
 
-# Colores
-NEGRO = (0, 0, 0)
+# Escala física
+PPM = 30
+
+# Crear mundo Box2D
+mundo = world(gravity=(0, 30), doSleep=True)
+
+# Suelo (estático)
+suelo = mundo.CreateStaticBody(position=(ANCHO / 2 / PPM, ALTO / PPM))
+suelo.CreatePolygonFixture(box=(ANCHO / 2 / PPM, 0.5), density=0, friction=0.8)
+
+# Cargar sprites
 
 
-def cargar_sprites_desde_carpeta(carpeta):
+def cargar_sprites_desde_carpeta(ruta, tamaño=None):
     sprites = []
-    for archivo in sorted(os.listdir(carpeta)):
-        ruta_completa = os.path.join(carpeta, archivo)
-        imagen = pygame.image.load(ruta_completa).convert_alpha()
-        sprites.append(imagen)
+    for archivo in sorted(os.listdir(ruta)):
+        if archivo.endswith(".png") or archivo.endswith(".jpg"):
+            imagen = pygame.image.load(os.path.join(ruta, archivo)).convert_alpha()
+            if tamaño:
+                imagen = pygame.transform.scale(imagen, tamaño)
+            sprites.append(imagen)
     return sprites
 
 
-# Controles del jugador 1
-controles_p1 = {
-    'izquierda': pygame.K_a,
-    'derecha': pygame.K_d,
-    'arriba': pygame.K_w,
-    'abajo': pygame.K_s,
-    'atacar': pygame.K_f,
-    'bloquear': pygame.K_g
+sprites = {
+    'idle': cargar_sprites_desde_carpeta("assets/sprites/idle", tamaño=(64, 128)),
+    'mover': cargar_sprites_desde_carpeta("assets/sprites/mover", tamaño=(64, 128)),
+    'atacar': cargar_sprites_desde_carpeta("assets/sprites/atacar", tamaño=(64, 128)),
+    'bloquear': cargar_sprites_desde_carpeta("assets/sprites/bloquear", tamaño=(64, 128)),
+    'dañado': cargar_sprites_desde_carpeta("assets/sprites/bloquear", tamaño=(64, 128))
 }
 
-sprites_ghost = {
-    'idle': cargar_sprites_desde_carpeta("assets/sprites/idle"),
-    'mover': cargar_sprites_desde_carpeta("assets/sprites/mover"),
-    'atacar': cargar_sprites_desde_carpeta("assets/sprites/atacar"),
-    'bloquear': cargar_sprites_desde_carpeta("assets/sprites/bloquear"),
+background_sprites = cargar_sprites_desde_carpeta("assets/sprites/fondo", tamaño=(ANCHO, ALTO))
+print("Sprites cargados:", sprites)
+
+controles = {
+    "izquierda": pygame.K_a,
+    "derecha": pygame.K_d,
+    "arriba": pygame.K_w,
+    "abajo": pygame.K_s,
+    "atacar": pygame.K_f,
+    "bloquear": pygame.K_g
 }
 
-# Crear personaje
-jugador1 = Personaje(100, 400, sprites_ghost, controles_p1)
+controles2 = {
+    "izquierda": pygame.K_LEFT,
+    "derecha": pygame.K_RIGHT,
+    "arriba": pygame.K_UP,
+    "abajo": pygame.K_DOWN,
+    "atacar": pygame.K_RCTRL,
+    "bloquear": pygame.K_g
+}
+
+jugador = Personaje(mundo, 100, 150, sprites, controles)
+jugador2 = Personaje(mundo, 300, 150, sprites, controles2, nombre='Jugador2')
+fondo = Fondo(background_sprites, tiempo_entre_frames=200)
+
 
 # Loop principal
 ejecutando = True
 while ejecutando:
-    clock.tick(FPS)  # Limitar FPS
-
+    clock.tick(FPS)
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             ejecutando = False
 
-    # Obtener teclas presionadas
     teclas = pygame.key.get_pressed()
+    jugador.manejar_eventos(teclas)
+    jugador2.manejar_eventos(teclas)
+    # Avanzar física
+    mundo.Step(1.0 / FPS, 6, 2)
 
-    # Lógica del personaje
-    jugador1.manejar_eventos(teclas)
-    jugador1.actualizar()
+    jugador.actualizar()
+    jugador2.actualizar()
+    jugador.chequear_golpe(jugador2)
+    jugador2.chequear_golpe(jugador)
+    jugador.actualizar_direccion_personaje(jugador2)
+    jugador2.actualizar_direccion_personaje(jugador)
+    # Dibujar
+    fondo.actualizar()
+    fondo.dibujar(pantalla)
+    jugador.dibujar(pantalla)
+    jugador2.dibujar(pantalla)
 
-    # Dibujar fondo
-    pantalla.blit(fondo, (0, 0))
-
-    # Dibujar personaje
-    jugador1.dibujar(pantalla)
-
-    # Actualizar pantalla
+    if jugador2.vida <= 0 or jugador.vida <= 0:
+        Ganador = jugador.nombre if jugador.vida > 0 else jugador2.nombre
+        print(f"El ganador es: {Ganador}")
+        ejecutando = False
     pygame.display.flip()
 
 pygame.quit()
