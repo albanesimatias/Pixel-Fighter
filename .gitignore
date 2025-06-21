@@ -1,10 +1,18 @@
-# Entornos virtuales
-venv/
-.env/
 
-# Archivos de configuración
-*.pyc
+### Python ###
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # Archivos de sistema
 .DS_Store
