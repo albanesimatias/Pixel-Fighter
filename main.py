@@ -1,5 +1,6 @@
 import pygame
 from Box2D.b2 import world
+from Box2D import b2World, b2PolygonShape, b2_staticBody, b2_dynamicBody
 import os
 from personaje import Personaje  # asumimos que guardaste la clase arriba aquí
 from fondo import Fondo  # asumimos que guardaste la clase arriba aquí
@@ -19,8 +20,18 @@ PPM = 30
 mundo = world(gravity=(0, 30), doSleep=True)
 
 # Suelo (estático)
-suelo = mundo.CreateStaticBody(position=(ANCHO / 2 / PPM, ALTO / PPM))
+suelo = mundo.CreateStaticBody(position=(ANCHO / 2 / PPM, (ALTO-60) / PPM))
 suelo.CreatePolygonFixture(box=(ANCHO / 2 / PPM, 0.5), density=0, friction=0.8)
+
+left_wall = mundo.CreateStaticBody(
+    position=(0.25, ALTO / 2 / PPM),
+    shapes=b2PolygonShape(box=(0.5, ALTO / 2 / PPM))
+)
+
+right_wall = mundo.CreateStaticBody(
+    position=((ANCHO - 10) / PPM, ALTO / 2 / PPM),
+    shapes=b2PolygonShape(box=(0.5, ALTO / 2 / PPM))
+)
 
 # Cargar sprites
 
