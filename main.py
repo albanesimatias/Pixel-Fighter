@@ -37,11 +37,11 @@ def cargar_sprites_desde_carpeta(ruta, tamaño=None):
 
 
 sprites = {
-    'idle': cargar_sprites_desde_carpeta("assets/sprites/idle", tamaño=(64, 128)),
-    'mover': cargar_sprites_desde_carpeta("assets/sprites/mover", tamaño=(64, 128)),
-    'atacar': cargar_sprites_desde_carpeta("assets/sprites/atacar", tamaño=(64, 128)),
-    'bloquear': cargar_sprites_desde_carpeta("assets/sprites/bloquear", tamaño=(64, 128)),
-    'dañado': cargar_sprites_desde_carpeta("assets/sprites/bloquear", tamaño=(64, 128))
+    'idle': cargar_sprites_desde_carpeta("assets/sprites/idle", tamaño=(94*2, 64*2)),
+    'mover': cargar_sprites_desde_carpeta("assets/sprites/mover", tamaño=(94*2, 64*2)),
+    'atacar': cargar_sprites_desde_carpeta("assets/sprites/atacar", tamaño=(94*2, 64*2)),
+    'bloquear': cargar_sprites_desde_carpeta("assets/sprites/bloquear", tamaño=(94*2, 64*2)),
+    'dañado': cargar_sprites_desde_carpeta("assets/sprites/daño", tamaño=(94*2, 64*2))
 }
 
 background_sprites = cargar_sprites_desde_carpeta("assets/sprites/fondo", tamaño=(ANCHO, ALTO))
@@ -64,8 +64,8 @@ controles2 = {
     "bloquear": pygame.K_g
 }
 
-jugador = Personaje(mundo, 100, 150, sprites, controles)
-jugador2 = Personaje(mundo, 300, 150, sprites, controles2, nombre='Jugador2')
+jugador = Personaje(mundo, 100, 100, sprites, controles)
+jugador2 = Personaje(mundo, 300, 100, sprites, controles2, nombre='Jugador2')
 fondo = Fondo(background_sprites, tiempo_entre_frames=200)
 
 
