@@ -2,7 +2,7 @@ import pygame
 from Box2D.b2 import world as b2World
 from Box2D import b2World, b2PolygonShape, b2_staticBody, b2_dynamicBody
 import os
-from character import Character  # asumimos que guardaste la clase arriba aquí
+from character import Character, State  # asumimos que guardaste la clase arriba aquí
 from background import Background  # asumimos que guardaste la clase arriba aquí
 
 pygame.init()
@@ -48,11 +48,11 @@ def load_sprites(path, size=None):
 
 
 sprites = {
-    'idle': load_sprites("assets/sprites/idle", size=(94*2, 64*2)),
-    'move': load_sprites("assets/sprites/mover", size=(94*2, 64*2)),
-    'attack': load_sprites("assets/sprites/atacar", size=(94*2, 64*2)),
-    'block': load_sprites("assets/sprites/bloquear", size=(94*2, 64*2)),
-    'kicked': load_sprites("assets/sprites/daño", size=(94*2, 64*2))
+    State.IDLE: load_sprites("assets/sprites/idle", size=(94*2, 64*2)),
+    State.MOVE: load_sprites("assets/sprites/mover", size=(94*2, 64*2)),
+    State.ATTACK: load_sprites("assets/sprites/atacar", size=(94*2, 64*2)),
+    State.BLOCK: load_sprites("assets/sprites/bloquear", size=(94*2, 64*2)),
+    State.KICKED: load_sprites("assets/sprites/daño", size=(94*2, 64*2))
 }
 
 background_sprites = load_sprites("assets/sprites/fondo", size=(ANCHO, ALTO))

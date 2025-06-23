@@ -1,9 +1,20 @@
 import pygame
 from Box2D.b2 import dynamicBody
+from enum import Enum
 
 PPM = 30  # pixeles por metro
 WIDTH, HEIGHT = 100, 120  # dimensiones del sprite base
 
+class State(Enum):
+    IDLE = 1,
+    MOVE = 2,
+    ATTACK = 3,
+    BLOCK = 4,
+    KICKED = 5,
+
+class Direction(Enum):
+    RIGHT = 1,
+    LEFT = -1
 
 class Character:
     def __init__(self, world, x, y, sprites, controls, name='Jugador'):
@@ -11,8 +22,8 @@ class Character:
         self.hp = 100
         self.sprites = sprites
         self.controls = controls
-        self.direction = 1
-        self.state = 'idle'
+        self.direction = Direction.LEFT
+        self.state = State.IDLE
         self.frame = 0
         self.cooldown_anim = 100
         self.last_update = pygame.time.get_ticks()
@@ -25,7 +36,7 @@ class Character:
         self.body.CreatePolygonFixture(box=(WIDTH/PPM/2, HEIGHT/PPM/2), density=1, friction=0.5)
 
         self.matriz_estados = {
-            'idle': {
+            State.IDLE: {
                 'evt_left': self.move,
                 'evt_right': self.move,
                 'evt_up': self.jump,
@@ -33,21 +44,21 @@ class Character:
                 'evt_block': self.block,
                 'evt_kicked': self.kicked,
             },
-            'move': {
+            State.MOVE: {
                 'evt_idle': self.idle,
                 'evt_attack': self.attack,
                 'evt_up': self.jump,
                 'evt_block': self.block,
                 'evt_kicked': self.kicked,
             },
-            'attack': {
+            State.ATTACK: {
                 'evt_end_animation': self.idle
             },
-            'block': {
+            State.BLOCK: {
                 'evt_end_animation': self.idle,
                 'evt_kicked': self.block_succesfull
             },
-            'kicked': {
+            State.KICKED: {
                 'evt_end_animation': self.idle
             }
         }
@@ -55,19 +66,19 @@ class Character:
     # === funciones de estado ===
 
     def idle(self):
-        self.state = 'idle'
+        self.state = State.IDLE
         self.frame = 0
         self.in_animation = False
         self.rect_hit = None
 
     def move(self):
-        self.state = 'move'
+        self.state = State.MOVE
         self.frame = 0
         self.in_animation = False
         self.rect_hit = None
 
     def attack(self):
-        self.state = 'attack'
+        self.state = State.ATTACK
         self.frame = 0
         self.in_animation = True
         self.last_update = pygame.time.get_ticks()
@@ -76,11 +87,11 @@ class Character:
         x = self.body.position.x * PPM
         y = self.body.position.y * PPM
         width = 40
-        offset = 40 if self.direction == 1 else -135
+        offset = 40 if self.direction == Direction.RIGHT else -135
         self.rect_hit = pygame.Rect(x + offset, y - 80, width, 40)
 
     def block(self):
-        self.state = 'block'
+        self.state = State.BLOCK
         self.frame = 0
         self.in_animation = True
         self.last_update = pygame.time.get_ticks()
@@ -91,7 +102,7 @@ class Character:
         print(f"{self.name} recibió {damage} de recive_damage. hp restante: {self.hp}")
 
     def kicked(self):
-        self.state = 'kicked'
+        self.state = State.KICKED
         self.frame = 0
         self.in_animation = True
         self.last_update = pygame.time.get_ticks()
@@ -108,9 +119,9 @@ class Character:
 
     def update_character_direction(self, rival):
         if rival.body.position.x > self.body.position.x:
-            self.direction = 1   # mira a la derecha
+            self.direction = Direction.RIGHT   # mira a la derecha
         else:
-            self.direction = -1  # mira a la izquierda
+            self.direction = Direction.LEFT  # mira a la izquierda
 
     # === Entrada de evento FSM ===
 
@@ -123,7 +134,7 @@ class Character:
     # === Entrada del jugador ===
 
     def event_handler(self, key_words):
-        if self.state in {'block', 'kicked'} and self.in_animation:
+        if self.state in {State.BLOCK, State.KICKED} and self.in_animation:
             return
 
         vel = self.body.linearVelocity
@@ -139,12 +150,12 @@ class Character:
 
         if key_words[self.controls['left']]:
             new_vel[0] = -7
-            self.direction = -1
+            self.direction = Direction.LEFT
             self.execute('evt_left')
 
         if key_words[self.controls['right']]:
             new_vel[0] = 7
-            self.direction = 1
+            self.direction = Direction.RIGHT
             self.execute('evt_right')
 
         if key_words[self.controls['up']]:
@@ -160,11 +171,11 @@ class Character:
     # === Verificación de colisiones entre personajes ===
 
     def hit_check(self, enemy):
-        if self.state == 'attack' and self.rect_hit and not self.has_attacked:
+        if self.state == State.ATTACK and self.rect_hit and not self.has_attacked:
             rect_otro = enemy.get_rect()
             if self.rect_hit.colliderect(rect_otro):
                 enemy.execute('evt_kicked')
-                if enemy.state != 'block':
+                if enemy.state != State.BLOCK:
                     enemy.recive_damage(10)
                 else:
                     enemy.block_succesfull()
@@ -190,7 +201,7 @@ class Character:
 
             if self.frame >= len(self.sprites[self.state]):
                 self.frame = 0
-                if self.state in {'attack', 'block', 'kicked'}:
+                if self.state in {State.ATTACK, State.BLOCK, State.KICKED}:
                     self.execute('evt_end_animation')
 
     def draw(self, screem):
@@ -199,7 +210,7 @@ class Character:
         y = int(pos[1] * PPM)
 
         image = self.sprites[self.state][self.frame]
-        if self.direction == -1:
+        if self.direction == Direction.LEFT:
             image = pygame.transform.flip(image, True, False)
 
         width_sprite = image.get_width()
