@@ -4,10 +4,12 @@ from Box2D import b2World, b2PolygonShape, b2_staticBody, b2_dynamicBody
 import os
 from character import Character, State  # asumimos que guardaste la clase arriba aquí
 from background import Background  # asumimos que guardaste la clase arriba aquí
-from victory_screen import victory_screem
+from victory_screem import victory_screem
+from constants import HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT, MAX_HP,BAR_SPACING,Y_KO,ANCHO,ALTO,FPS,PPM,RED_HEALTH,YELLOW_HEALTH
+
 
 pygame.init()
-ANCHO, ALTO = 800, 500
+
 font = pygame.font.SysFont(None, 36)
 
 
@@ -18,10 +20,7 @@ pygame.display.set_caption("Pelea con Box2D")
 
 
 clock = pygame.time.Clock()
-FPS = 30
 
-# Escala física
-PPM = 30
 
 # Crear world Box2D
 world = b2World(gravity=(0, 30), doSleep=True)
@@ -144,37 +143,26 @@ while fighting:
     player2.draw(screem)
 
 
-    texto_ko = font.render("KO", True, (200, 0, 0))
-    x_ko = ANCHO // 2 - texto_ko.get_width() // 2
-    y_ko = 30
-
-    # Dimensiones de barras
-    barra_ancho = 200
-    barra_alto = 15
-    max_hp = 100
+    text_ko = font.render("KO", True, (200, 0, 0))
+    x_ko = ANCHO // 2 - text_ko.get_width() // 2
 
     # Vida actual
-    prog_p1 = calculate_health_width(player.hp, max_hp, barra_ancho)
-    prog_p2 = calculate_health_width(player2.hp, max_hp, barra_ancho)
+    prog_p1 = calculate_health_width(player.hp, MAX_HP, HEALTH_BAR_WIDTH)
+    prog_p2 = calculate_health_width(player2.hp, MAX_HP, HEALTH_BAR_WIDTH)
 
     # --- Posicionamiento ---
-    espacio_entre = 10  # Separación opcional mínima
 
-    x_barra_p1 = x_ko - barra_ancho - espacio_entre
-    x_barra_p2 = x_ko + texto_ko.get_width() + espacio_entre
-    y_barra = y_ko + 5  # Alineado con KO
+    x_bar_p1 = x_ko - HEALTH_BAR_WIDTH - BAR_SPACING
+    x_bar_p2 = x_ko + text_ko.get_width() + BAR_SPACING
+    y_bar = Y_KO + 5  # Alineado con KO
 
-    # --- Dibujar barras ---
-    rojo = (180, 0, 0)
-    amarillo = (255, 215, 0)
- 
     # Jugador 1 - izquierda del KO
-    draw_health_bar(screem, x_barra_p1, y_barra, barra_ancho, barra_alto, rojo, amarillo, prog_p1)
+    draw_health_bar(screem, x_bar_p1, y_bar, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT, RED_HEALTH, YELLOW_HEALTH, prog_p1)
     # Jugador 2 (retroceso desde derecha)
-    draw_health_bar(screem, x_barra_p2, y_barra, barra_ancho, barra_alto, rojo, amarillo, prog_p2)
+    draw_health_bar(screem, x_bar_p2, y_bar, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT, RED_HEALTH, YELLOW_HEALTH, prog_p2)
 
     # Finalmente, dibujar el KO centrado
-    screem.blit(texto_ko, (x_ko, y_ko))
+    screem.blit(text_ko, (x_ko, Y_KO))
     
 
     if player2.hp <= 0 or player.hp <= 0:
