@@ -4,11 +4,18 @@ from Box2D import b2World, b2PolygonShape, b2_staticBody, b2_dynamicBody
 import os
 from character import Character, State  # asumimos que guardaste la clase arriba aquí
 from background import Background  # asumimos que guardaste la clase arriba aquí
+from victory_screen import victory_screem
 
 pygame.init()
 ANCHO, ALTO = 800, 500
+font = pygame.font.SysFont(None, 36)
+
+
+
 screem = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Pelea con Box2D")
+
+
 
 clock = pygame.time.Clock()
 FPS = 30
@@ -35,7 +42,6 @@ right_wall = world.CreateStaticBody(
 
 # Cargar sprites
 
-
 def load_sprites(path, size=None):
     sprites = []
     for file in sorted(os.listdir(path)):
@@ -45,6 +51,27 @@ def load_sprites(path, size=None):
                 image = pygame.transform.scale(image, size)
             sprites.append(image)
     return sprites
+
+#dibujar la barra
+def draw_health_bar(surface, x, y, width, height, background_color, health_color, current_width):
+    """
+    Draws a health bar that shrinks from right to left as health decreases.
+
+    :param surface: Pygame surface to draw on (e.g., screen)
+    :param x: X coordinate of the top-left corner
+    :param y: Y coordinate of the top-left corner
+    :param width: Total width of the bar
+    :param height: Height of the bar
+    :param background_color: Color for the empty part (e.g., red)
+    :param health_color: Color for the filled part (e.g., yellow)
+    :param current_width: How much of the bar is filled (based on HP)
+    """
+    pygame.draw.rect(surface, background_color, (x, y, width, height))
+    pygame.draw.rect(surface, health_color, (x + width - current_width, y, current_width, height))
+
+def calculate_health_width(current_hp, max_hp, bar_width):
+    hp = max(current_hp, 0)
+    return int((hp / max_hp) * bar_width)
 
 
 sprites = {
@@ -75,7 +102,7 @@ controls2 = {
     "block": pygame.K_RSHIFT
 }
 
-player = Character(world, 100, 100, sprites, controls)
+player = Character(world, 100, 100, sprites, controls,name="player")
 player2 = Character(world, 300, 100, sprites, controls2, name='player2')
 background = Background(background_sprites)
 
@@ -108,9 +135,48 @@ while fighting:
     player.draw(screem)
     player2.draw(screem)
 
+
+    texto_ko = font.render("KO", True, (200, 0, 0))
+    x_ko = ANCHO // 2 - texto_ko.get_width() // 2
+    y_ko = 30
+
+    # Dimensiones de barras
+    barra_ancho = 200
+    barra_alto = 15
+    max_hp = 100
+
+    # Vida actual
+    #vida_p1 = max(player.hp, 0)
+    #vida_p2 = max(player2.hp, 0)
+    #prog_p1 = int((vida_p1 / max_hp) * barra_ancho)
+    #prog_p2 = int((vida_p2 / max_hp) * barra_ancho)
+    prog_p1 = calculate_health_width(player.hp, max_hp, barra_ancho)
+    prog_p2 = calculate_health_width(player2.hp, max_hp, barra_ancho)
+
+    # --- Posicionamiento ---
+    espacio_entre = 10  # Separación opcional mínima
+
+    x_barra_p1 = x_ko - barra_ancho - espacio_entre
+    x_barra_p2 = x_ko + texto_ko.get_width() + espacio_entre
+    y_barra = y_ko + 5  # Alineado con KO
+
+    # --- Dibujar barras ---
+    rojo = (180, 0, 0)
+    amarillo = (255, 215, 0)
+ 
+    # Jugador 1 - izquierda del KO
+    draw_health_bar(screem, x_barra_p1, y_barra, barra_ancho, barra_alto, rojo, amarillo, prog_p1)
+    # Jugador 2 (retroceso desde derecha)
+    draw_health_bar(screem, x_barra_p2, y_barra, barra_ancho, barra_alto, rojo, amarillo, prog_p2)
+
+    # Finalmente, dibujar el KO centrado
+    screem.blit(texto_ko, (x_ko, y_ko))
+    
+
     if player2.hp <= 0 or player.hp <= 0:
         winner = player.name if player.hp > 0 else player2.name
         print(f"El ganador es: {winner}")
+        victory_screem(screem, font, ANCHO, ALTO, winner) 
         fighting = False
     pygame.display.flip()
 
