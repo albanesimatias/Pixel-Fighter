@@ -40,6 +40,7 @@ right_wall = world.CreateStaticBody(
     shapes=b2PolygonShape(box=(0.5, ALTO / 2 / PPM))
 )
 
+
 # Cargar sprites
 
 def load_sprites(path, size=None):
@@ -79,7 +80,9 @@ sprites = {
     State.MOVE: load_sprites("assets/sprites/mover", size=(94*2, 64*2)),
     State.ATTACK: load_sprites("assets/sprites/atacar", size=(94*2, 64*2)),
     State.BLOCK: load_sprites("assets/sprites/bloquear", size=(94*2, 64*2)),
-    State.KICKED: load_sprites("assets/sprites/daño", size=(94*2, 64*2))
+    State.KICKED: load_sprites("assets/sprites/daño", size=(94*2, 64*2)),
+    State.DISTANCE_ATTACK: load_sprites("assets/sprites/lanzar", size=(94*2, 64*2)),
+    State.PROYECTILE: load_sprites("assets/sprites/proyectile", size=(64, 64))
 }
 
 background_sprites = load_sprites("assets/sprites/fondo", size=(ANCHO, ALTO))
@@ -124,8 +127,13 @@ while fighting:
 
     player.update()
     player2.update()
+
     player.hit_check(player2)
     player2.hit_check(player)
+
+    player.projectile_hit_check(player2)
+    player2.projectile_hit_check(player)
+
     player.update_character_direction(player2)
     player2.update_character_direction(player)
 
@@ -146,10 +154,6 @@ while fighting:
     max_hp = 100
 
     # Vida actual
-    #vida_p1 = max(player.hp, 0)
-    #vida_p2 = max(player2.hp, 0)
-    #prog_p1 = int((vida_p1 / max_hp) * barra_ancho)
-    #prog_p2 = int((vida_p2 / max_hp) * barra_ancho)
     prog_p1 = calculate_health_width(player.hp, max_hp, barra_ancho)
     prog_p2 = calculate_health_width(player2.hp, max_hp, barra_ancho)
 

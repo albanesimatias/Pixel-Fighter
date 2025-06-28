@@ -1,9 +1,12 @@
 import pygame
 from Box2D.b2 import dynamicBody
 from enum import Enum
+from proyectile import Projectile
+
 
 PPM = 30  # pixeles por metro
 WIDTH, HEIGHT = 100, 120  # dimensiones del sprite base
+
 
 class State(Enum):
     IDLE = 1,
@@ -11,10 +14,14 @@ class State(Enum):
     ATTACK = 3,
     BLOCK = 4,
     KICKED = 5,
+    DISTANCE_ATTACK = 6,
+    PROYECTILE = 7
+
 
 class Direction(Enum):
-    RIGHT = 1,
+    RIGHT = 1
     LEFT = -1
+
 
 class Character:
     def __init__(self, world, x, y, sprites, controls, name='Jugador'):
@@ -31,6 +38,10 @@ class Character:
         self.in_air = False
         self.rect_hit = None
         self.has_attacked = False
+
+        self.projectiles = []
+        self.last_shot_time = 0
+        self.shoot_cooldown = 500  # milisegundos
 
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
         self.body.CreatePolygonFixture(box=(WIDTH/PPM/2, HEIGHT/PPM/2), density=1, friction=0.5)
@@ -60,7 +71,10 @@ class Character:
             },
             State.KICKED: {
                 'evt_end_animation': self.idle
-            }
+            },
+            State.DISTANCE_ATTACK: {
+                'evt_end_animation': self.idle
+            },
         }
 
     # === funciones de estado ===
@@ -117,6 +131,19 @@ class Character:
             self.body.ApplyLinearImpulse((0, -250), self.body.worldCenter, True)
             self.in_air = True
 
+    def shoot(self):
+        now = pygame.time.get_ticks()
+        offset = 1 if self.direction == Direction.RIGHT else -1
+        if now - self.last_shot_time >= self.shoot_cooldown:
+            self.state = State.DISTANCE_ATTACK
+            self.in_animation = True
+            self.frame = 0
+            self.last_update = pygame.time.get_ticks()
+            x = self.body.position.x + offset
+            y = self.body.position.y - 2
+            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, self.sprites[State.PROYECTILE][0]))
+            self.last_shot_time = now
+
     def update_character_direction(self, rival):
         if rival.body.position.x > self.body.position.x:
             self.direction = Direction.RIGHT   # mira a la derecha
@@ -134,7 +161,7 @@ class Character:
     # === Entrada del jugador ===
 
     def event_handler(self, key_words):
-        if self.state in {State.BLOCK, State.KICKED} and self.in_animation:
+        if self.state in {State.BLOCK, State.KICKED, State.DISTANCE_ATTACK} and self.in_animation:
             return
 
         vel = self.body.linearVelocity
@@ -146,6 +173,10 @@ class Character:
 
         if key_words[self.controls['block']]:
             self.execute('evt_block')
+            return
+
+        if key_words[self.controls['down']]:
+            self.shoot()
             return
 
         if key_words[self.controls['left']]:
@@ -181,6 +212,21 @@ class Character:
                     enemy.block_succesfull()
                 self.has_attacked = True
 
+    def projectile_hit_check(self, enemy):
+        for proj in self.projectiles:
+            if proj.alive:
+                rect_proj = pygame.Rect(
+                    int(proj.body.position.x * PPM) - 6,
+                    int(proj.body.position.y * PPM) - 6,
+                    12, 12
+                )
+                if rect_proj.colliderect(enemy.get_rect()):
+                    proj.alive = False
+                    if enemy.state != State.BLOCK:
+                        enemy.recive_damage(5)
+                    else:
+                        enemy.block_succesfull()
+
     # === Posición física ===
 
     def get_rect(self):
@@ -201,8 +247,11 @@ class Character:
 
             if self.frame >= len(self.sprites[self.state]):
                 self.frame = 0
-                if self.state in {State.ATTACK, State.BLOCK, State.KICKED}:
+                if self.state in {State.ATTACK, State.BLOCK, State.KICKED, State.DISTANCE_ATTACK}:
                     self.execute('evt_end_animation')
+        for proj in self.projectiles:
+            proj.update()  # elimina si está muy cerca de los bordes
+        self.projectiles = [p for p in self.projectiles if p.alive]  # Eliminar proyectiles muertos
 
     def draw(self, screem):
         pos = self.body.position
@@ -219,6 +268,5 @@ class Character:
         # Centramos horizontalmente y dibujamos desde los pies
         screem.blit(image, (x - width_sprite // 2, y - alto_sprite))
 
-        # Dibujo de hitbox de ataque (debug)
-        # if self.rect_hit:
-        #    pygame.draw.rect(screem, (255, 0, 0), self.rect_hit, 1)
+        for proj in self.projectiles:
+            proj.draw(screem)
