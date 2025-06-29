@@ -1,33 +1,18 @@
 import pygame
 from Box2D.b2 import dynamicBody
-from enum import Enum
-from proyectile import Projectile
+from constants import *
+from sprite import Sprite
+
+from projectile import Projectile
 
 
 PPM = 30  # pixeles por metro
 WIDTH, HEIGHT = 100, 120  # dimensiones del sprite base
 
-
-class State(Enum):
-    IDLE = 1,
-    MOVE = 2,
-    ATTACK = 3,
-    BLOCK = 4,
-    KICKED = 5,
-    DISTANCE_ATTACK = 6,
-    PROYECTILE = 7
-
-
-class Direction(Enum):
-    RIGHT = 1
-    LEFT = -1
-
-
 class Character:
-    def __init__(self, world, x, y, sprites, controls, name='Jugador'):
+    def __init__(self, world, x, y, controls, name=ID_Character.ESTEBAN.value):
         self.name = name
         self.hp = 100
-        self.sprites = sprites
         self.controls = controls
         self.direction = Direction.LEFT
         self.state = State.IDLE
@@ -141,7 +126,7 @@ class Character:
             self.last_update = pygame.time.get_ticks()
             x = self.body.position.x + offset
             y = self.body.position.y - 2
-            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, self.sprites[State.PROYECTILE][0]))
+            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, Sprite.get_instance().get_sprite_frame(ID_Object.PROJECTILE.value, 0, 0)))
             self.last_shot_time = now
 
     def update_character_direction(self, rival):
@@ -245,20 +230,22 @@ class Character:
             self.last_update = now
             self.frame += 1
 
-            if self.frame >= len(self.sprites[self.state]):
+            if self.frame >= Sprite.get_instance().get_sprite_len(self.name, self.state):
                 self.frame = 0
                 if self.state in {State.ATTACK, State.BLOCK, State.KICKED, State.DISTANCE_ATTACK}:
                     self.execute('evt_end_animation')
+
         for proj in self.projectiles:
             proj.update()  # elimina si está muy cerca de los bordes
         self.projectiles = [p for p in self.projectiles if p.alive]  # Eliminar proyectiles muertos
 
-    def draw(self, screem):
+    def draw(self, screen):
         pos = self.body.position
         x = int(pos[0] * PPM)
         y = int(pos[1] * PPM)
 
-        image = self.sprites[self.state][self.frame]
+        #image = self.sprites[self.state][self.frame]
+        image = Sprite.get_instance().get_sprite_frame(self.name, self.state, self.frame)
         if self.direction == Direction.LEFT:
             image = pygame.transform.flip(image, True, False)
 
@@ -266,7 +253,7 @@ class Character:
         alto_sprite = image.get_height()
 
         # Centramos horizontalmente y dibujamos desde los pies
-        screem.blit(image, (x - width_sprite // 2, y - alto_sprite))
+        screen.blit(image, (x - width_sprite // 2, y - alto_sprite))
 
         for proj in self.projectiles:
-            proj.draw(screem)
+            proj.draw(screen)

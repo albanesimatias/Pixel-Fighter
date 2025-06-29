@@ -1,12 +1,6 @@
 import pygame
-from enum import Enum
+from constants import Direction
 import math
-
-
-class Direction(Enum):
-    RIGHT = 1
-    LEFT = -1
-
 
 class Projectile:
     def __init__(self, world, x, y, direction, sprite, speed=15):

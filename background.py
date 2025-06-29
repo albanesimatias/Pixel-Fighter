@@ -1,10 +1,10 @@
 import pygame
+from sprite import Sprite
+from constants import ID_Object
 
 
 class Background:
-    def __init__(self, frames, frame_time=200):
-        self.frames = frames
-        print(self.frames)
+    def __init__(self, frame_time=200):
         self.frame = 0
         self.frame_time = frame_time
         self.last_change = pygame.time.get_ticks()
@@ -12,8 +12,8 @@ class Background:
     def update(self):
         now = pygame.time.get_ticks()
         if now - self.last_change > self.frame_time:
-            self.frame = 0 if self.frame == 1 else 1
+            self.frame = 1 - self.frame
             self.last_change = now
 
-    def draw(self, screem):
-        screem.blit(self.frames[self.frame], (0, 0))
+    def draw(self, screen):
+        screen.blit(Sprite.get_instance().get_sprite_frame(ID_Object.BACKGROUND.value, 0, self.frame), (0, 0))

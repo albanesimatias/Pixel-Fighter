@@ -1,18 +1,37 @@
 
 import pygame
+from enum import Enum
 
-HEALTH_BAR_WIDTH = 200
-HEALTH_BAR_HEIGHT = 15
+WIDTH, HEIGHT = 800, 500
+HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT = 200, 15
 MAX_HP = 100
 BAR_SPACING = 10
 Y_KO = 30
 RED_HEALTH = (180, 0, 0)
 YELLOW_HEALTH = (255, 215, 0)
-ANCHO = 800
-ALTO = 500
 FPS = 30
 PPM = 30
 FIGHTING = {"is_running": True}
+
+class State(Enum):
+    IDLE = 1
+    MOVE = 2
+    ATTACK = 3
+    BLOCK = 4
+    KICKED = 5
+    DISTANCE_ATTACK = 6
+
+class Direction(Enum):
+    RIGHT = 1
+    LEFT = -1
+
+class ID_Character(Enum):
+    ESTEBAN = "Esteban"
+    MAXIMO = "Maximo"
+
+class ID_Object(Enum):
+    BACKGROUND = "background"
+    PROJECTILE = "projectile"
 
 controls = {
     "left": pygame.K_a,
