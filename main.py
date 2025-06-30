@@ -39,6 +39,7 @@ right_wall = world.CreateStaticBody(
 
 # dibujar la barra
 
+
 def draw_health_bar(surface, x, y, width, height, background_color, health_color, current_width, reverse=False):
     pygame.draw.rect(surface, background_color, (x, y, width, height))
     if reverse:
@@ -51,8 +52,9 @@ def calculate_health_width(current_hp, max_hp, bar_width):
     hp = max(current_hp, 0)
     return int((hp / max_hp) * bar_width)
 
+
 player = Character(world, 100, 300, controls, name=ID_Character.ESTEBAN.value)
-player2 = Character(world, WIDTH * 0.8, 300, controls2, name=ID_Character.ESTEBAN.value)
+player2 = Character(world, WIDTH * 0.8, 300, controls2, name=ID_Character.MAXIMO.value)
 background = Background()
 
 # Loop principal
