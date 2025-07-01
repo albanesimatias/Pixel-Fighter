@@ -66,8 +66,7 @@ player = Character(world, 100, 300, controls, name=ID_Character.ESTEBAN.value)
 player2 = Character(world, WIDTH * 0.8, 300, controls2, name=ID_Character.MAXIMO.value)
 background = Background()
 
-# Loop principal
-thread = threading.Thread(target=IA_player.IA_PLAYER)  # Iniciar IA en un hilo
+thread = threading.Thread(target=IA_player.IA_PLAYER)
 thread.start()
 
 while FIGHTING['is_running']:
@@ -85,15 +84,17 @@ while FIGHTING['is_running']:
     # Avanzar física
     world.Step(1.0 / FPS, 6, 2)
 
+    # Actualizar personajes
     player.update()
     player2.update()
 
+    # Comprobar colisiones
     player.hit_check(player2)
     player2.hit_check(player)
-
     player.projectile_hit_check(player2)
     player2.projectile_hit_check(player)
 
+    # Actualizar dirección de los personajes para que miren al oponente
     player.update_character_direction(player2)
     player2.update_character_direction(player)
 
@@ -102,7 +103,6 @@ while FIGHTING['is_running']:
     background.draw(screen)
     player.draw(screen)
     player2.draw(screen)
-
     draw_health_bars(screen, player.hp, player2.hp)
 
     if player2.hp <= 0 or player.hp <= 0:
