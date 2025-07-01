@@ -1,4 +1,3 @@
-
 import pygame
 from enum import Enum
 
@@ -13,6 +12,7 @@ FPS = 30
 PPM = 30
 FIGHTING = {"is_running": True}
 
+
 class State(Enum):
     IDLE = 1
     MOVE = 2
@@ -21,21 +21,26 @@ class State(Enum):
     KICKED = 5
     DISTANCE_ATTACK = 6
 
+
 class Sound(Enum):
     ATTACK = 1
     JUMP = 2
+
 
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1
 
+
 class ID_Character(Enum):
     ESTEBAN = "Esteban"
     MAXIMO = "Maximo"
 
+
 class ID_Object(Enum):
     BACKGROUND = "background"
     PROJECTILE = "projectile"
+
 
 controls = {
     "left": pygame.K_a,

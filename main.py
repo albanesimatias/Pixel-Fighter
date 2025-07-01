@@ -11,8 +11,14 @@ import threading
 
 
 pygame.init()
-
 font = pygame.font.SysFont(None, 36)
+
+TEXT_KO = pygame.font.SysFont(None, 36).render("KO", True, (200, 0, 0))
+X_KO = WIDTH // 2 - TEXT_KO.get_width() // 2
+
+X_BAR_P1 = X_KO - HEALTH_BAR_WIDTH - BAR_SPACING
+X_BAR_P2 = X_KO + TEXT_KO.get_width() + BAR_SPACING
+Y_BAR = Y_KO + 5
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pelea con Box2D")
@@ -37,20 +43,23 @@ right_wall = world.CreateStaticBody(
     shapes=b2PolygonShape(box=(0.5, HEIGHT / 2 / PPM))
 )
 
-# dibujar la barra
-
-
-def draw_health_bar(surface, x, y, width, height, background_color, health_color, current_width, reverse=False):
-    pygame.draw.rect(surface, background_color, (x, y, width, height))
-    if reverse:
-        pygame.draw.rect(surface, health_color, (x + width - current_width, y, current_width, height))
-    else:
-        pygame.draw.rect(surface, health_color, (x, y, current_width, height))
-
 
 def calculate_health_width(current_hp, max_hp, bar_width):
     hp = max(current_hp, 0)
     return int((hp / max_hp) * bar_width)
+
+
+def draw_health_bars(surface, p1_healt, p2_healt):
+    # Vida actual
+    prog_p1 = calculate_health_width(p1_healt, MAX_HP, HEALTH_BAR_WIDTH)
+    prog_p2 = calculate_health_width(p2_healt, MAX_HP, HEALTH_BAR_WIDTH)
+
+    pygame.draw.rect(surface, RED_HEALTH, (X_BAR_P1, Y_BAR, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT))
+    pygame.draw.rect(surface, RED_HEALTH, (X_BAR_P2, Y_BAR, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT))
+    pygame.draw.rect(surface, YELLOW_HEALTH, (X_BAR_P1 + HEALTH_BAR_WIDTH - prog_p1, Y_BAR, prog_p1, HEALTH_BAR_HEIGHT))
+    pygame.draw.rect(surface, YELLOW_HEALTH, (X_BAR_P2, Y_BAR, prog_p2, HEALTH_BAR_HEIGHT))
+
+    screen.blit(TEXT_KO, (X_KO, Y_KO))
 
 
 player = Character(world, 100, 300, controls, name=ID_Character.ESTEBAN.value)
@@ -69,6 +78,7 @@ while FIGHTING['is_running']:
 
     key_words = pygame.key.get_pressed()
     key_words2 = key_words  # IA_player.key_words  # if SINGLE_PLAYER else key_words
+
     player.event_handler(key_words)
     player2.event_handler(key_words2)
 
@@ -93,26 +103,7 @@ while FIGHTING['is_running']:
     player.draw(screen)
     player2.draw(screen)
 
-    text_ko = font.render("KO", True, (200, 0, 0))
-    x_ko = WIDTH // 2 - text_ko.get_width() // 2
-
-    # Vida actual
-    prog_p1 = calculate_health_width(player.hp, MAX_HP, HEALTH_BAR_WIDTH)
-    prog_p2 = calculate_health_width(player2.hp, MAX_HP, HEALTH_BAR_WIDTH)
-
-    # --- Posicionamiento ---
-
-    x_bar_p1 = x_ko - HEALTH_BAR_WIDTH - BAR_SPACING
-    x_bar_p2 = x_ko + text_ko.get_width() + BAR_SPACING
-    y_bar = Y_KO + 5  # Alineado con KO
-
-    # Jugador 1 - izquierda del KO
-    draw_health_bar(screen, x_bar_p1, y_bar, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT, RED_HEALTH, YELLOW_HEALTH, prog_p1)
-    # Jugador 2 (retroceso desde derecha)
-    draw_health_bar(screen, x_bar_p2, y_bar, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT, RED_HEALTH, YELLOW_HEALTH, prog_p2, reverse=True)
-
-    # Finalmente, dibujar el KO centrado
-    screen.blit(text_ko, (x_ko, Y_KO))
+    draw_health_bars(screen, player.hp, player2.hp)
 
     if player2.hp <= 0 or player.hp <= 0:
         winner = player.name if player.hp > 0 else player2.name
@@ -122,5 +113,5 @@ while FIGHTING['is_running']:
 
     pygame.display.flip()
 
-thread.join()  # Esperar a que el hilo de IA termine
+thread.join()
 pygame.quit()
