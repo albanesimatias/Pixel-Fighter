@@ -10,6 +10,7 @@ from projectile import Projectile
 PPM = 30  # pixeles por metro
 WIDTH, HEIGHT = 100, 120  # dimensiones del sprite base
 
+
 class Character:
     def __init__(self, world, x, y, controls, name=ID_Character.ESTEBAN.value):
         self.name = name
@@ -128,7 +129,7 @@ class Character:
             self.last_update = pygame.time.get_ticks()
             x = self.body.position.x + offset
             y = self.body.position.y - 2
-            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, Sprite.get_instance().get_sprite_frame(ID_Object.PROJECTILE.value, 0, 0)))
+            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, Sprite.get_instance().get_sprite_frame(self.name, ID_Object.PROJECTILE, 0)))
             self.last_shot_time = now
 
     def update_character_direction(self, rival):
@@ -246,7 +247,7 @@ class Character:
         x = int(pos[0] * PPM)
         y = int(pos[1] * PPM)
 
-        #image = self.sprites[self.state][self.frame]
+        # image = self.sprites[self.state][self.frame]
         image = Sprite.get_instance().get_sprite_frame(self.name, self.state, self.frame)
         if self.direction == Direction.LEFT:
             image = pygame.transform.flip(image, True, False)

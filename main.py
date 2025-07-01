@@ -68,7 +68,7 @@ while FIGHTING['is_running']:
             FIGHTING['is_running'] = False
 
     key_words = pygame.key.get_pressed()
-    key_words2 = IA_player.key_words  # if SINGLE_PLAYER else key_words
+    key_words2 = key_words  # IA_player.key_words  # if SINGLE_PLAYER else key_words
     player.event_handler(key_words)
     player2.event_handler(key_words2)
 

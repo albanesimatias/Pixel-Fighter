@@ -2,6 +2,7 @@ import pygame
 from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT
 import os
 
+
 class Sprite:
     _instance = None
 
@@ -38,7 +39,8 @@ class Sprite:
                 State.ATTACK: self.load_sprites("assets/sprites/esteban/atacar", size=(94*2, 64*2)),
                 State.BLOCK: self.load_sprites("assets/sprites/esteban/bloquear", size=(94*2, 64*2)),
                 State.KICKED: self.load_sprites("assets/sprites/esteban/daño", size=(94*2, 64*2)),
-                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/esteban/lanzar", size=(94*2, 64*2))
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/esteban/lanzar", size=(94*2, 64*2)),
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/esteban/proyectil", size=(64, 64))
             },
             ID_Character.MAXIMO.value: {
                 State.IDLE: self.load_sprites("assets/sprites/maximo/idle", size=(94*2, 64*2)),
@@ -46,10 +48,10 @@ class Sprite:
                 State.ATTACK: self.load_sprites("assets/sprites/maximo/atacar", size=(94*2, 64*2)),
                 State.BLOCK: self.load_sprites("assets/sprites/maximo/bloquear", size=(94*2, 64*2)),
                 State.KICKED: self.load_sprites("assets/sprites/maximo/daño", size=(94*2, 64*2)),
-                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/maximo/lanzar", size=(94*2, 64*2))
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/maximo/lanzar", size=(94*2, 64*2)),
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/maximo/proyectil", size=(25, 28))
             },
             ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
-            ID_Object.PROJECTILE.value: {0: self.load_sprites("assets/sprites/proyectil", size=(64, 64))}
         }
 
     def get_sprite(self, id, state):
