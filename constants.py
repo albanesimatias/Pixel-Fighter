@@ -21,6 +21,10 @@ class State(Enum):
     KICKED = 5
     DISTANCE_ATTACK = 6
 
+class Sound(Enum):
+    ATTACK = 1
+    JUMP = 2
+
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1

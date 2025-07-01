@@ -2,7 +2,6 @@ import pygame
 from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT
 import os
 
-
 class Sprite:
     _instance = None
 

@@ -2,6 +2,7 @@ import pygame
 from Box2D.b2 import dynamicBody
 from constants import *
 from sprite import Sprite
+from sound_manager import sound_manager
 
 from projectile import Projectile
 
@@ -76,6 +77,7 @@ class Character:
         self.in_animation = False
         self.rect_hit = None
 
+    @sound_manager.play_sound(Sound.ATTACK)
     def attack(self):
         self.state = State.ATTACK
         self.frame = 0

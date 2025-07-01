@@ -1,5 +1,6 @@
 from Box2D.b2 import world as b2World
 from Box2D import b2World, b2PolygonShape, b2_staticBody, b2_dynamicBody
+from sound_manager import SoundManager
 
 from character import Character  # asumimos que guardaste la clase arriba aquí
 from background import Background  # asumimos que guardaste la clase arriba aquí
@@ -12,7 +13,6 @@ import threading
 pygame.init()
 
 font = pygame.font.SysFont(None, 36)
-
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pelea con Box2D")
