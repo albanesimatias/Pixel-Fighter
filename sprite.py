@@ -60,11 +60,21 @@ class Sprite:
                 State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/mariano/lanzar", size=(94*2, 64*2)),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/mariano/proyectil", size=(64, 64))
             },
+            ID_Character.MATIAS.value: {
+                State.IDLE: self.load_sprites("assets/sprites/matias/idle", size=(94*2, 64*2)),
+                State.MOVE: self.load_sprites("assets/sprites/matias/mover", size=(94*2, 64*2)),
+                State.ATTACK: self.load_sprites("assets/sprites/matias/atacar", size=(94*2, 64*2)),
+                State.BLOCK: self.load_sprites("assets/sprites/matias/bloquear", size=(94*2, 64*2)),
+                State.KICKED: self.load_sprites("assets/sprites/matias/daño", size=(94*2, 64*2)),
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/matias/lanzar", size=(94*2, 64*2)),
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/matias/proyectil", size=(64, 64))
+            },
             ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
             ID_Scene.WIN.value: {
                 ID_Character.ESTEBAN.value: self.load_sprites("assets/sprites/esteban/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Character.MARIANO.value: self.load_sprites("assets/sprites/mariano/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Character.MAXIMO.value: self.load_sprites("assets/sprites/maximo/win", size=(WIDTH/2, HEIGHT/2)),
+                ID_Character.MAXIMO.value: self.load_sprites("assets/sprites/matias/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Scene.EMPATE.value: self.load_sprites("assets/sprites/draw", size=(WIDTH/2, HEIGHT/2))
             }
         }

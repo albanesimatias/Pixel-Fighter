@@ -47,6 +47,7 @@ class ID_Character(Enum):
     ESTEBAN = "Esteban"
     MAXIMO = "Maximo"
     MARIANO = "Mariano"
+    MATIAS = "Matias"
 
 class ID_Object(Enum):
     BACKGROUND = "background"
