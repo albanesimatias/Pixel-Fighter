@@ -38,6 +38,8 @@ class State(Enum):
 class Sound(Enum):
     ATTACK = 1
     JUMP = 2
+    BLOCKED = 3
+    KICKED = 4
 
 class Direction(Enum):
     RIGHT = 1
