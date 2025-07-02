@@ -12,8 +12,7 @@ def timer_thread():
             time_round[0] = remaining
 
         if remaining <= 0:
-            with fighting_mtx:
-                FIGHTING['is_running'] = False
+            FIGHTING['is_running'] = False
             break
 
         time.sleep(0.2) 

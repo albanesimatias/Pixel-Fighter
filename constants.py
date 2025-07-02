@@ -12,7 +12,6 @@ YELLOW_HEALTH = (255, 215, 0)
 FPS = 30
 PPM = 30
 FIGHTING = {"is_running": True}
-fighting_mtx = threading.Lock()
 
 ROUND_DURATION = 60  # segundos
 time_round = [ROUND_DURATION]
