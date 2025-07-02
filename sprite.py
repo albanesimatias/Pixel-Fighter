@@ -67,7 +67,7 @@ class Sprite:
                 State.BLOCK: self.load_sprites("assets/sprites/matias/bloquear", size=(94*2, 64*2)),
                 State.KICKED: self.load_sprites("assets/sprites/matias/daño", size=(94*2, 64*2)),
                 State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/matias/lanzar", size=(94*2, 64*2)),
-                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/matias/proyectil", size=(64, 64))
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/matias/proyectil", size=(30, 30))
             },
             ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
             ID_Scene.WIN.value: {
