@@ -68,8 +68,6 @@ def draw_health_bars(surface, p1_healt, p2_healt):
 
 background = Background()
 
-
-
 choice = main_menu_screen(screen, font, MENU_OPTIONS)
 
 if choice == "exit":

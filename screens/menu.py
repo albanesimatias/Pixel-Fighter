@@ -1,7 +1,7 @@
 import pygame
 from constants import *
-def main_menu_screen(screen, font, options):
 
+def main_menu_screen(screen, font, options):
     selected = 0
     clock = pygame.time.Clock()
 
