@@ -68,23 +68,14 @@ def draw_health_bars(surface, p1_healt, p2_healt):
 
 background = Background()
 
-thread = threading.Thread(target=IA_player.IA_PLAYER)
-thread.start()
 
 
-# Estados
-STATE_MENU = "menu"
-STATE_SELECT = "select"
-STATE_EXIT = "exit"
-game_state = STATE_MENU
-menu_options = ["PLAY", "EXIT"]
-
-choice = main_menu_screen(screen, font, menu_options)
+choice = main_menu_screen(screen, font, MENU_OPTIONS)
 
 if choice == "exit":
     pygame.quit()
     exit()
-elif choice == "play":
+if choice == "play":
     FIGHTING['is_running'] = True
     str_player, str_player2 = character_selection_screen(screen, font)
     player = Character(world, 100, 300, controls, name=str_player)
@@ -94,6 +85,8 @@ elif choice == "play":
 # ⏱️ Configuración del round
 start_ticks = pygame.time.get_ticks()
 
+thread = threading.Thread(target=IA_player.IA_PLAYER)
+thread.start()
 while FIGHTING['is_running']:
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -123,19 +116,17 @@ while FIGHTING['is_running']:
     player.update_character_direction(player2)
     player2.update_character_direction(player)
 
+    # ⏱️ Cronómetro y cálculo de tiempo restante
+    elapsed_seconds = (pygame.time.get_ticks() - start_ticks) // 1000
+    time_left = max(0, ROUND_DURATION - elapsed_seconds)
+
     # Dibujar
     background.update()
     background.draw(screen)
     player.draw(screen)
     player2.draw(screen)
     draw_health_bars(screen, player.hp, player2.hp)
-
-    # ⏱️ Cronómetro y cálculo de tiempo restante
-    elapsed_seconds = (pygame.time.get_ticks() - start_ticks) // 1000
-    time_left = max(0, ROUND_DURATION - elapsed_seconds)
-
     draw_timer(screen, font, time_left, WIDTH)
-
 
     if player.hp <= 0 or player2.hp <= 0 or time_left <= 0:
         FIGHTING['is_running'] = False

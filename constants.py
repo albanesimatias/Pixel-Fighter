@@ -19,6 +19,8 @@ STATE_PLAYING = "playing"
 STATE_OPTIONS = "options"
 STATE_EXIT = "exit"
 
+MENU_OPTIONS = ["PLAY", "EXIT"]
+
 class State(Enum):
     IDLE = 1
     MOVE = 2
