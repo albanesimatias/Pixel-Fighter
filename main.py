@@ -10,8 +10,10 @@ from background import Background  # asumimos que guardaste la clase arriba aqu�
 from screens.victory_screen import victory_screen
 from constants import *
 import IA_player
+import IA_player_hard
 import threading
 from timer import draw_timer, timer_thread
+
 
 class Game:
     def __init__(self):
@@ -62,8 +64,7 @@ class Game:
     def calculate_health_width(self, current_hp, max_hp, bar_width):
         hp = max(current_hp, 0)
         return int((hp / max_hp) * bar_width)
-    
-    
+
     def run(self):
         choice = main_menu_screen(self.screen, self.font, MENU_OPTIONS)
 
@@ -81,7 +82,8 @@ class Game:
 
             FIGHTING['is_running'] = True
 
-            thread_bot = threading.Thread(target=IA_player.IA_PLAYER, daemon=True)
+            # thread_bot = threading.Thread(target=IA_player.IA_PLAYER, daemon=True)
+            thread_bot = threading.Thread(target=IA_player_hard.IA_PLAYER, args=(self.player, self.player2), daemon=True)
             thread_timer = threading.Thread(target=timer_thread, daemon=True)
             thread_bot.start()
             thread_timer.start()
@@ -110,13 +112,13 @@ class Game:
                 FIGHTING['is_running'] = False
 
         key_words = pygame.key.get_pressed()
-        key_words2 = IA_player.key_words  # IA_player.key_words  # if SINGLE_PLAYER else key_words
+        key_words2 = IA_player_hard.key_words  # IA_player.key_words
 
         self.player.event_handler(key_words)
         self.player2.event_handler(key_words2)
 
     def update(self):
-         # Avanzar física
+        # Avanzar física
         self.world.Step(1.0 / FPS, 6, 2)
 
         # Actualizar personajes
@@ -154,47 +156,7 @@ class Game:
         victory_screen(self.screen, self.font, WIDTH, HEIGHT, winner)
         pygame.display.flip()
 
-    
+
 if __name__ == "__main__":
     game = Game()
     game.run()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-    
-
-    
-
-    
-
-    
-
-

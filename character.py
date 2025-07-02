@@ -28,10 +28,10 @@ class Character:
 
         self.projectiles = []
         self.last_shot_time = 0
-        self.shoot_cooldown = 500  # milisegundos
+        self.shoot_cooldown = 800
 
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
-        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2), density=1, friction=0)
+        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2), density=1, friction=0.2)
 
         self.matriz_estados = {
             State.IDLE: {
