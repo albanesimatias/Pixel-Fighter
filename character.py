@@ -5,21 +5,22 @@ from sprite import Sprite
 from sound_manager import sound_manager
 
 from projectile import Projectile
+from constants import *
 
 
-PPM = 30  # pixeles por metro
-WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120  # dimensiones del sprite base
+#PPM = 30  # pixeles por metro
+#WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120  # dimensiones del sprite base
 
 
 class Character:
     def __init__(self, world, x, y, controls, name=ID_Character.ESTEBAN.value):
         self.name = name
-        self.hp = 100
+        self.hp = CHARACTER_HP
         self.controls = controls
         self.direction = Direction.LEFT
         self.state = State.IDLE
         self.frame = 0
-        self.cooldown_anim = 100
+        self.cooldown_anim = COOLDOWN_ANIM
         self.last_update = pygame.time.get_ticks()
         self.in_animation = False
         self.in_air = False
@@ -28,9 +29,9 @@ class Character:
 
         self.projectiles = []
         self.last_shot_time = 0
-        self.shoot_cooldown = 800
+        self.shoot_cooldown = SHOOT_COOLDDOWN
 
-        self.attack_cooldown = 500
+        self.attack_cooldown = ATTACK_COOLDOWN
         self.last_attack_time = 0
 
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
@@ -97,9 +98,9 @@ class Character:
         # Se genera un rect de golpe temporal (zona de recive_damage)
         x = self.body.position.x * PPM
         y = self.body.position.y * PPM
-        width = 40
-        offset = 40 if self.direction == Direction.RIGHT else -135
-        self.rect_hit = pygame.Rect(x + offset, y - 80, width, 40)
+
+        offset = CHARACTER_WIDTH if self.direction == Direction.RIGHT else -135
+        self.rect_hit = pygame.Rect(x + offset, y - 80, CHARACTER_WIDTH, 40)
 
     def block(self):
         self.state = State.BLOCK

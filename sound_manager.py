@@ -1,5 +1,5 @@
 import pygame
-from constants import Sound
+from constants import *
 
 
 class SoundManager:
@@ -36,7 +36,7 @@ class SoundManager:
         def decorator(func):
             def wrapper(*args, **kwargs):
                 sound = self.sounds.get(sound_name)
-                sound.set_volume(0.2)
+                sound.set_volume(VOLUME)
                 if sound:
                     sound.play(loops=-1)
                 try:

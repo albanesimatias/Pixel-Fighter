@@ -1,5 +1,6 @@
 import pygame
 from random import randint
+from constants import *
 
 CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Dario", "Matias"]  # Podés expandir esta lista
 
@@ -9,9 +10,6 @@ def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, co
     title = font.render("Characters", True, (255, 255, 255))
     screen.blit(title, (screen.get_width() // 2 - title.get_width() // 2, 40))
 
-    spacing = 60
-    base_y = 150
-
     for i, name in enumerate(CHARACTER_LIST):
         color_p1 = (255, 200, 200) if i == selected_p1 else (100, 100, 100)
         color_p2 = (150, 200, 255) if i == selected_p2 else (60, 60, 60)
@@ -19,16 +17,16 @@ def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, co
         name_p1 = font.render(name, True, color_p1)
         name_p2 = font.render(name, True, color_p2)
 
-        screen.blit(name_p1, (screen.get_width() // 4 - name_p1.get_width() // 2, base_y + i * spacing))
-        screen.blit(name_p2, (3 * screen.get_width() // 4 - name_p2.get_width() // 2, base_y + i * spacing))
+        screen.blit(name_p1, (screen.get_width() // 4 - name_p1.get_width() // 2, BASE_Y + i * SPACING))
+        screen.blit(name_p2, (3 * screen.get_width() // 4 - name_p2.get_width() // 2, BASE_Y + i * SPACING))
 
     # Indicadores de confirmación
     if confirm_p1:
         locked = font.render("✓", True, (0, 255, 0))
-        screen.blit(locked, (screen.get_width() // 4 + 80, base_y + selected_p1 * spacing))
+        screen.blit(locked, (screen.get_width() // 4 + 80, BASE_Y + selected_p1 * SPACING))
     if confirm_p2:
         locked = font.render("✓", True, (0, 255, 0))
-        screen.blit(locked, (3 * screen.get_width() // 4 + 80, base_y + selected_p2 * spacing))
+        screen.blit(locked, (3 * screen.get_width() // 4 + 80, BASE_Y + selected_p2 * SPACING))
 
 def character_selection_screen(screen, font):
     selected_p1 = 0

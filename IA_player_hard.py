@@ -1,14 +1,10 @@
 import pygame
 import time
 import random
-from constants import FIGHTING, Direction
+from constants import *
 
 pygame.init()
 
-X_TRESHOLD = 5
-CHANCE_ATTACK = 0.6
-CHANCE_BLOCK = 0.4
-SLEEP_TIME = 0.4
 
 distance_actions = [pygame.K_DOWN,  pygame.K_LEFT]
 distance_actions2 = [pygame.K_DOWN, pygame.K_RIGHT]

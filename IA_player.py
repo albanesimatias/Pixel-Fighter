@@ -1,7 +1,7 @@
 import pygame
 import time
 import random
-from constants import FIGHTING
+from constants import *
 
 pygame.init()
 
@@ -36,4 +36,4 @@ def IA_PLAYER():
         time.sleep(1)
         key_words[key_word] = False
         key_words[key_word2] = False
-        time.sleep(0.5)
+        time.sleep(SLEEP)

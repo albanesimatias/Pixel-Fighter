@@ -77,3 +77,28 @@ controls2 = {
     "attack": pygame.K_RCTRL,
     "block": pygame.K_RSHIFT
 }
+
+#character_select
+SPACING= 60
+BASE_Y= 150
+
+#character
+PPM = 30  # pixeles por metro
+WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120  # dimensiones del sprite base
+SHOOT_COOLDDOWN =800
+ATTACK_COOLDOWN=500 
+CHARACTER_WIDTH=40
+CHARACTER_HP=100
+COOLDOWN_ANIM=100
+
+#IA_PLAYER_HARD
+X_TRESHOLD = 5
+CHANCE_ATTACK = 0.6
+CHANCE_BLOCK = 0.4
+SLEEP_TIME = 0.4
+
+#IA_PLAYER
+SLEEP=0.5
+
+#sound_manager
+VOLUME=0.2
