@@ -70,7 +70,8 @@ class Sprite:
             },
             ID_Object.BACKGROUND.value: {
                 Scene.INTRO:  self.load_sprites("assets/sprites/fondo/intro", size=(WIDTH, HEIGHT)),
-                Scene.FIGHT: self.load_sprites("assets/sprites/fondo/fight", size=(WIDTH, HEIGHT))
+                Scene.FIGHT: self.load_sprites("assets/sprites/fondo/fight", size=(WIDTH, HEIGHT)),
+                Scene.SELECT: self.load_sprites("assets/sprites/fondo/select", size=(WIDTH, HEIGHT))
             },
             ID_Scene.WIN.value: {
                 ID_Character.ESTEBAN.value: self.load_sprites("assets/sprites/esteban/win", size=(WIDTH/2, HEIGHT/2)),

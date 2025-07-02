@@ -91,7 +91,7 @@ controls2 = {
 }
 
 SPACING = 60
-BASE_Y = 150
+BASE_Y = 80
 
 
 PPM = 30
