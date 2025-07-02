@@ -19,8 +19,6 @@ STATE_PLAYING = "playing"
 STATE_OPTIONS = "options"
 STATE_EXIT = "exit"
 
-
-
 class State(Enum):
     IDLE = 1
     MOVE = 2
@@ -34,22 +32,22 @@ class Sound(Enum):
     ATTACK = 1
     JUMP = 2
 
-
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1
-
 
 class ID_Character(Enum):
     ESTEBAN = "Esteban"
     MAXIMO = "Maximo"
     MARIANO = "Mariano"
 
-
 class ID_Object(Enum):
     BACKGROUND = "background"
     PROJECTILE = "projectile"
 
+class ID_Scene(Enum):
+    WIN = "win"
+    EMPATE = "empate"
 
 controls = {
     "left": pygame.K_a,

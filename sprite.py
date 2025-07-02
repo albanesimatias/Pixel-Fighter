@@ -1,5 +1,5 @@
 import pygame
-from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT
+from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene
 import os
 
 
@@ -49,7 +49,7 @@ class Sprite:
                 State.BLOCK: self.load_sprites("assets/sprites/maximo/bloquear", size=(94*2, 64*2)),
                 State.KICKED: self.load_sprites("assets/sprites/maximo/daño", size=(94*2, 64*2)),
                 State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/maximo/lanzar", size=(94*2, 64*2)),
-                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/maximo/proyectil", size=(25, 28))
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/maximo/proyectil", size=(25, 28)),
             },
             ID_Character.MARIANO.value: {
                 State.IDLE: self.load_sprites("assets/sprites/mariano/idle", size=(94*2, 64*2)),
@@ -58,9 +58,15 @@ class Sprite:
                 State.BLOCK: self.load_sprites("assets/sprites/mariano/bloquear", size=(94*2, 64*2)),
                 State.KICKED: self.load_sprites("assets/sprites/mariano/daño", size=(94*2, 64*2)),
                 State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/mariano/lanzar", size=(94*2, 64*2)),
-                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/mariano/proyectil", size=(25, 28))
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/mariano/proyectil", size=(64, 64))
             },
             ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
+            ID_Scene.WIN.value: {
+                ID_Character.ESTEBAN.value: self.load_sprites("assets/sprites/esteban/win", size=(WIDTH/2, HEIGHT/2)),
+                ID_Character.MARIANO.value: self.load_sprites("assets/sprites/mariano/win", size=(WIDTH/2, HEIGHT/2)),
+                ID_Character.MAXIMO.value: self.load_sprites("assets/sprites/maximo/win", size=(WIDTH/2, HEIGHT/2)),
+                ID_Scene.EMPATE.value: self.load_sprites("assets/sprites/draw", size=(WIDTH/2, HEIGHT/2))
+            }
         }
 
     def get_sprite(self, id, state):

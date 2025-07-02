@@ -1,12 +1,14 @@
 
 import pygame
+from sprite import Sprite
+from constants import ID_Scene
 
 def victory_screen(screen, font, ANCHO, ALTO, winner_name):
     victory = True
 
     # Ruta a la imagen de victoria según el nombre del ganador
     try:
-        win_image = pygame.image.load(f"assets/sprites/{winner_name}/win/win.png").convert_alpha()
+        win_image = Sprite.get_instance().get_sprite_frame(ID_Scene.WIN.value, winner_name, 0)
     except pygame.error as e:
         print(f"[ERROR] No se pudo cargar la imagen de victoria: {e}")
         win_image = None  # Podés reemplazar con un placeholder si querés
