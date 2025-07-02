@@ -1,5 +1,5 @@
 import time
-from constants import ROUND_DURATION, timer_mtx, time_round, FIGHTING, fighting_mtx
+from constants import ROUND_DURATION, timer_mtx, time_round, FIGHTING
 
 def timer_thread():
     global timer_mtx, time_round
