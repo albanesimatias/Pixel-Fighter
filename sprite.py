@@ -1,7 +1,6 @@
 import pygame
-from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene,SPRITES_SIZE
+from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene, SPRITES_SIZE
 import os
-
 
 class Sprite:
     _instance = None
@@ -74,7 +73,7 @@ class Sprite:
                 ID_Character.ESTEBAN.value: self.load_sprites("assets/sprites/esteban/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Character.MARIANO.value: self.load_sprites("assets/sprites/mariano/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Character.MAXIMO.value: self.load_sprites("assets/sprites/maximo/win", size=(WIDTH/2, HEIGHT/2)),
-                ID_Character.MAXIMO.value: self.load_sprites("assets/sprites/matias/win", size=(WIDTH/2, HEIGHT/2)),
+                ID_Character.MATIAS.value: self.load_sprites("assets/sprites/matias/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Scene.EMPATE.value: self.load_sprites("assets/sprites/draw", size=(WIDTH/2, HEIGHT/2))
             }
         }
