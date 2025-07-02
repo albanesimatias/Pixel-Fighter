@@ -8,7 +8,7 @@ from projectile import Projectile
 
 
 PPM = 30  # pixeles por metro
-WIDTH, HEIGHT = 100, 120  # dimensiones del sprite base
+WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120  # dimensiones del sprite base
 
 
 class Character:
@@ -31,7 +31,7 @@ class Character:
         self.shoot_cooldown = 500  # milisegundos
 
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
-        self.body.CreatePolygonFixture(box=(WIDTH/PPM/2, HEIGHT/PPM/2), density=1, friction=0.5)
+        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2), density=1, friction=0)
 
         self.matriz_estados = {
             State.IDLE: {
