@@ -5,7 +5,7 @@ from sprite import Sprite
 from sound_manager import sound_manager
 
 from projectile import Projectile
-from constants import *
+
 
 
 #PPM = 30  # pixeles por metro
@@ -35,7 +35,7 @@ class Character:
         self.last_attack_time = 0
 
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
-        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2), density=1, friction=0.2)
+        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2),density=DENSITY, friction=FRICTION)
 
         self.matriz_estados = {
             State.IDLE: {

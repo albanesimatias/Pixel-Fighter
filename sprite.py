@@ -1,5 +1,5 @@
 import pygame
-from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene
+from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene,SPRITES_SIZE
 import os
 
 
@@ -34,39 +34,39 @@ class Sprite:
     def load_assets(self):
         self.sprites = {
             ID_Character.ESTEBAN.value: {
-                State.IDLE: self.load_sprites("assets/sprites/esteban/idle", size=(94*2, 64*2)),
-                State.MOVE: self.load_sprites("assets/sprites/esteban/mover", size=(94*2, 64*2)),
-                State.ATTACK: self.load_sprites("assets/sprites/esteban/atacar", size=(94*2, 64*2)),
-                State.BLOCK: self.load_sprites("assets/sprites/esteban/bloquear", size=(94*2, 64*2)),
-                State.KICKED: self.load_sprites("assets/sprites/esteban/daño", size=(94*2, 64*2)),
-                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/esteban/lanzar", size=(94*2, 64*2)),
+                State.IDLE: self.load_sprites("assets/sprites/esteban/idle", SPRITES_SIZE),
+                State.MOVE: self.load_sprites("assets/sprites/esteban/mover", SPRITES_SIZE),
+                State.ATTACK: self.load_sprites("assets/sprites/esteban/atacar", SPRITES_SIZE),
+                State.BLOCK: self.load_sprites("assets/sprites/esteban/bloquear", SPRITES_SIZE),
+                State.KICKED: self.load_sprites("assets/sprites/esteban/daño", SPRITES_SIZE),
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/esteban/lanzar", SPRITES_SIZE),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/esteban/proyectil", size=(64, 64))
             },
             ID_Character.MAXIMO.value: {
-                State.IDLE: self.load_sprites("assets/sprites/maximo/idle", size=(94*2, 64*2)),
-                State.MOVE: self.load_sprites("assets/sprites/maximo/mover", size=(94*2, 64*2)),
-                State.ATTACK: self.load_sprites("assets/sprites/maximo/atacar", size=(94*2, 64*2)),
-                State.BLOCK: self.load_sprites("assets/sprites/maximo/bloquear", size=(94*2, 64*2)),
-                State.KICKED: self.load_sprites("assets/sprites/maximo/daño", size=(94*2, 64*2)),
-                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/maximo/lanzar", size=(94*2, 64*2)),
+                State.IDLE: self.load_sprites("assets/sprites/maximo/idle", SPRITES_SIZE),
+                State.MOVE: self.load_sprites("assets/sprites/maximo/mover", SPRITES_SIZE),
+                State.ATTACK: self.load_sprites("assets/sprites/maximo/atacar", SPRITES_SIZE),
+                State.BLOCK: self.load_sprites("assets/sprites/maximo/bloquear", SPRITES_SIZE),
+                State.KICKED: self.load_sprites("assets/sprites/maximo/daño", SPRITES_SIZE),
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/maximo/lanzar", SPRITES_SIZE),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/maximo/proyectil", size=(25, 28)),
             },
             ID_Character.MARIANO.value: {
-                State.IDLE: self.load_sprites("assets/sprites/mariano/idle", size=(94*2, 64*2)),
-                State.MOVE: self.load_sprites("assets/sprites/mariano/mover", size=(94*2, 64*2)),
-                State.ATTACK: self.load_sprites("assets/sprites/mariano/atacar", size=(94*2, 64*2)),
-                State.BLOCK: self.load_sprites("assets/sprites/mariano/bloquear", size=(94*2, 64*2)),
-                State.KICKED: self.load_sprites("assets/sprites/mariano/daño", size=(94*2, 64*2)),
-                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/mariano/lanzar", size=(94*2, 64*2)),
+                State.IDLE: self.load_sprites("assets/sprites/mariano/idle",SPRITES_SIZE),
+                State.MOVE: self.load_sprites("assets/sprites/mariano/mover", SPRITES_SIZE),
+                State.ATTACK: self.load_sprites("assets/sprites/mariano/atacar", SPRITES_SIZE),
+                State.BLOCK: self.load_sprites("assets/sprites/mariano/bloquear", SPRITES_SIZE),
+                State.KICKED: self.load_sprites("assets/sprites/mariano/daño", SPRITES_SIZE),
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/mariano/lanzar", SPRITES_SIZE),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/mariano/proyectil", size=(64, 64))
             },
             ID_Character.MATIAS.value: {
-                State.IDLE: self.load_sprites("assets/sprites/matias/idle", size=(94*2, 64*2)),
-                State.MOVE: self.load_sprites("assets/sprites/matias/mover", size=(94*2, 64*2)),
-                State.ATTACK: self.load_sprites("assets/sprites/matias/atacar", size=(94*2, 64*2)),
-                State.BLOCK: self.load_sprites("assets/sprites/matias/bloquear", size=(94*2, 64*2)),
-                State.KICKED: self.load_sprites("assets/sprites/matias/daño", size=(94*2, 64*2)),
-                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/matias/lanzar", size=(94*2, 64*2)),
+                State.IDLE: self.load_sprites("assets/sprites/matias/idle", SPRITES_SIZE),
+                State.MOVE: self.load_sprites("assets/sprites/matias/mover", SPRITES_SIZE),
+                State.ATTACK: self.load_sprites("assets/sprites/matias/atacar", SPRITES_SIZE),
+                State.BLOCK: self.load_sprites("assets/sprites/matias/bloquear", SPRITES_SIZE),
+                State.KICKED: self.load_sprites("assets/sprites/matias/daño", SPRITES_SIZE),
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/matias/lanzar", SPRITES_SIZE),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/matias/proyectil", size=(30, 30))
             },
             ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
