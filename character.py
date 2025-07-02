@@ -30,6 +30,9 @@ class Character:
         self.last_shot_time = 0
         self.shoot_cooldown = 800
 
+        self.attack_cooldown = 500
+        self.last_attack_time = 0
+
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
         self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2), density=1, friction=0.2)
 
@@ -78,8 +81,14 @@ class Character:
         self.in_animation = False
         self.rect_hit = None
 
-    @sound_manager.play_sound(Sound.ATTACK)
+    # @sound_manager.play_sound(Sound.ATTACK)
     def attack(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_attack_time < self.attack_cooldown:
+            return
+
+        sound_manager.play(Sound.ATTACK)
+        self.last_attack_time = now
         self.state = State.ATTACK
         self.frame = 0
         self.in_animation = True
@@ -118,6 +127,7 @@ class Character:
     def jump(self):
         if not self.in_air:
             self.body.ApplyLinearImpulse((0, -250), self.body.worldCenter, True)
+            sound_manager.play(Sound.JUMP)
             self.in_air = True
 
     def shoot(self):
@@ -212,8 +222,10 @@ class Character:
                 if rect_proj.colliderect(enemy.get_rect()):
                     proj.alive = False
                     if enemy.state != State.BLOCK:
+                        sound_manager.play(Sound.KICKED)
                         enemy.recive_damage(5)
                     else:
+                        sound_manager.play(Sound.BLOCKED)
                         enemy.block_succesfull()
 
     # === Posición física ===
