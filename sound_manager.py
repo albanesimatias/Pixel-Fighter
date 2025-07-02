@@ -14,11 +14,6 @@ class SoundManager:
             Sound.LOOP: pygame.mixer.Sound("assets/sounds/loop_sound.wav"),
         }
 
-    def play(self, sound_name: str):
-        sound = self.sounds.get(sound_name)
-        if sound:
-            sound.play()
-
     def play_sound(self, sound_name: str, play_before=False):
         def decorator(func):
             def wrapper(*args, **kwargs):

@@ -41,15 +41,15 @@ class Character:
             State.IDLE: {
                 'evt_left': self.move,
                 'evt_right': self.move,
-                'evt_up': self.jump,
-                'evt_attack': self.attack,
+                'evt_up': self.can_jump,
+                'evt_attack': self.can_attack,
                 'evt_block': self.block,
                 'evt_kicked': self.kicked,
             },
             State.MOVE: {
                 'evt_idle': self.idle,
-                'evt_attack': self.attack,
-                'evt_up': self.jump,
+                'evt_attack': self.can_attack,
+                'evt_up': self.can_jump,
                 'evt_block': self.block,
                 'evt_kicked': self.kicked,
             },
@@ -82,25 +82,27 @@ class Character:
         self.in_animation = False
         self.rect_hit = None
 
-    # @sound_manager.play_sound(Sound.ATTACK)
-    def attack(self):
-        now = pygame.time.get_ticks()
-        if now - self.last_attack_time < self.attack_cooldown:
-            return
-
-        sound_manager.play(Sound.ATTACK)
+    @sound_manager.play_sound(Sound.ATTACK, True)
+    def attack(self, now):
         self.last_attack_time = now
         self.state = State.ATTACK
         self.frame = 0
         self.in_animation = True
         self.last_update = pygame.time.get_ticks()
         self.has_attacked = False
-        # Se genera un rect de golpe temporal (zona de recive_damage)
+
         x = self.body.position.x * PPM
         y = self.body.position.y * PPM
 
         offset = CHARACTER_WIDTH if self.direction == Direction.RIGHT else -135
         self.rect_hit = pygame.Rect(x + offset, y - 80, CHARACTER_WIDTH, 40)
+
+    def can_attack(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_attack_time < self.attack_cooldown:
+            return
+        
+        self.attack(now)
 
     def block(self):
         self.state = State.BLOCK
@@ -122,14 +124,16 @@ class Character:
 
     @sound_manager.play_sound(Sound.BLOCKED)
     def block_succesfull(self):
-        print(f"{self.name} bloqueó el ataque.")
-        # Puede reproducir animación o simplemente seguir bloqueando
+        pass
 
+    @sound_manager.play_sound(Sound.JUMP, True)
     def jump(self):
+        self.body.ApplyLinearImpulse((0, -250), self.body.worldCenter, True)
+        self.in_air = True
+
+    def can_jump(self):
         if not self.in_air:
-            self.body.ApplyLinearImpulse((0, -250), self.body.worldCenter, True)
-            sound_manager.play(Sound.JUMP)
-            self.in_air = True
+            self.jump()
 
     def shoot(self):
         now = pygame.time.get_ticks()
@@ -222,11 +226,10 @@ class Character:
                 )
                 if rect_proj.colliderect(enemy.get_rect()):
                     proj.alive = False
+                    enemy.execute('evt_kicked')
                     if enemy.state != State.BLOCK:
-                        sound_manager.play(Sound.KICKED)
                         enemy.recive_damage(5)
                     else:
-                        sound_manager.play(Sound.BLOCKED)
                         enemy.block_succesfull()
 
     # === Posición física ===
