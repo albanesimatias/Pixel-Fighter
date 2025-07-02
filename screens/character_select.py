@@ -1,6 +1,7 @@
 import pygame
+from random import randint
 
-CHARACTER_LIST = ["Esteban", "Maximo", "Dario", "Mariano","Matias"]  # Podés expandir esta lista
+CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Dario", "Matias"]  # Podés expandir esta lista
 
 def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, confirm_p2):
     screen.fill((15, 15, 30))  # Fondo oscuro
@@ -31,19 +32,19 @@ def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, co
 
 def character_selection_screen(screen, font):
     selected_p1 = 0
-    selected_p2 = 1
     confirm_p1 = False
-    confirm_p2 = False
+    confirm_p2 = True
     clock = pygame.time.Clock()
 
+    bot_select = randint(0, len(CHARACTER_LIST) - 3)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
-            elif event.type == pygame.KEYDOWN:
-                if not confirm_p1:
+            if not confirm_p1:
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
                         selected_p1 = (selected_p1 - 1) % len(CHARACTER_LIST)
                     elif event.key == pygame.K_s:
@@ -51,30 +52,11 @@ def character_selection_screen(screen, font):
                     elif event.key == pygame.K_q:
                         confirm_p1 = True
 
-                if not confirm_p2:
-                    if event.key == pygame.K_UP:
-                        selected_p2 = (selected_p2 - 1) % len(CHARACTER_LIST)
-                    elif event.key == pygame.K_DOWN:
-                        selected_p2 = (selected_p2 + 1) % len(CHARACTER_LIST)
-                    elif event.key == pygame.K_RETURN:
-                        confirm_p2 = True
-
-                # Permitir desconfirmar
-                if event.key == pygame.K_e:
-                    confirm_p1 = False
-                if event.key == pygame.K_BACKSPACE:
-                    confirm_p2 = False
-
-        # Evitar que elijan el mismo personaje
-        if confirm_p1 and confirm_p2 and selected_p1 == selected_p2:
-            confirm_p2 = False  # Forzar al segundo jugador a elegir otro
-            # Podés mostrar un cartel si querés
-
-        draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, confirm_p2)
+        draw_character_select(screen, font, selected_p1, bot_select, confirm_p1, confirm_p2)
         pygame.display.flip()
         clock.tick(60)
-
-        if confirm_p1 and confirm_p2 and selected_p1 != selected_p2:
+        
+        if confirm_p1 and confirm_p2:
             break
 
-    return CHARACTER_LIST[selected_p1], CHARACTER_LIST[selected_p2]
+    return CHARACTER_LIST[selected_p1], CHARACTER_LIST[bot_select]

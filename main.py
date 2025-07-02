@@ -15,6 +15,7 @@ from timer import draw_timer
 
 pygame.init()
 font = pygame.font.SysFont(None, 36)
+font_timer = pygame.font.SysFont("arialblack", 60)
 
 TEXT_KO = pygame.font.SysFont(None, 36).render("KO", True, (200, 0, 0))
 X_KO = WIDTH // 2 - TEXT_KO.get_width() // 2
@@ -97,7 +98,6 @@ while FIGHTING['is_running']:
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            thread.join()
             FIGHTING['is_running'] = False
 
     key_words = pygame.key.get_pressed()
@@ -133,32 +133,19 @@ while FIGHTING['is_running']:
     # ⏱️ Cronómetro y cálculo de tiempo restante
     elapsed_seconds = (pygame.time.get_ticks() - start_ticks) // 1000
     time_left = max(0, ROUND_DURATION - elapsed_seconds)
-    font_timer = pygame.font.SysFont("arialblack", 60)
+
     draw_timer(screen, font, time_left, WIDTH)
 
-    # 🎯 Finalización por vida o tiempo
-    game_over = False
-    winner = None
 
-    if player.hp <= 0 or player2.hp <= 0:
-        winner = player.name if player.hp > 0 else player2.name
-        game_over = True
-    elif time_left <= 0:
-        if player.hp > player2.hp:
-            winner = player.name
-        elif player2.hp > player.hp:
-            winner = player2.name
-        else:
-            winner = "empate"
-            game_over = True
-
-    print(player.hp, player2.hp, game_over)
-    if game_over:
-        print(f"El ganador es: {winner}")
-        victory_screen(screen, font, WIDTH, HEIGHT, winner)
+    if player.hp <= 0 or player2.hp <= 0 or time_left <= 0:
         FIGHTING['is_running'] = False
 
     pygame.display.flip()
 
 thread.join()
+winner = player.name if player.hp > 0 else player2.name
+winner = 'empate' if player.hp == player2.hp else winner
+victory_screen(screen, font, WIDTH, HEIGHT, winner)
+pygame.display.flip()
+
 pygame.quit()
