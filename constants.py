@@ -11,6 +11,14 @@ YELLOW_HEALTH = (255, 215, 0)
 FPS = 30
 PPM = 30
 FIGHTING = {"is_running": True}
+ROUND_DURATION = 60  # segundos
+
+STATE_MENU = "menu"
+STATE_SELECT = "select"
+STATE_PLAYING = "playing"
+STATE_OPTIONS = "options"
+STATE_EXIT = "exit"
+
 
 
 class State(Enum):

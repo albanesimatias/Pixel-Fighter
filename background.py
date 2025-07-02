@@ -16,4 +16,6 @@ class Background:
             self.last_change = now
 
     def draw(self, screen):
-        screen.blit(Sprite.get_instance().get_sprite_frame(ID_Object.BACKGROUND.value, 0, self.frame), (0, 0))
+        raw_image = Sprite.get_instance().get_sprite_frame(ID_Object.BACKGROUND.value, 0, self.frame)
+        scaled_image = pygame.transform.scale(raw_image, (screen.get_width(), screen.get_height()))
+        screen.blit(scaled_image, (0, 0))

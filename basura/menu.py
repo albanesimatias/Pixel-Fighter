@@ -51,7 +51,7 @@ def manejar_seleccion(keys, index, confirmado, controles_jugador):
 
 def draw_menu():
     screen.fill((30, 30, 30))
-    title = FONT.render("Selecciona tu personaje", True, (255, 255, 255))
+    title = FONT.render("Select your character", True, (255, 255, 255))
     screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 30))
 
     for i, name in enumerate(characters):
