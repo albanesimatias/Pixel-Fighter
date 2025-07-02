@@ -1,5 +1,5 @@
 import pygame
-from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene, SPRITES_SIZE
+from constants import ID_Character, ID_Object, State, WIDTH, HEIGHT, ID_Scene, SPRITES_SIZE, Scene
 import os
 
 class Sprite:
@@ -68,7 +68,10 @@ class Sprite:
                 State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/matias/lanzar", SPRITES_SIZE),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/matias/proyectil", size=(30, 30))
             },
-            ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
+            ID_Object.BACKGROUND.value: {
+                Scene.INTRO:  self.load_sprites("assets/sprites/fondo/intro", size=(WIDTH, HEIGHT)),
+                Scene.FIGHT: self.load_sprites("assets/sprites/fondo/fight", size=(WIDTH, HEIGHT))
+            },
             ID_Scene.WIN.value: {
                 ID_Character.ESTEBAN.value: self.load_sprites("assets/sprites/esteban/win", size=(WIDTH/2, HEIGHT/2)),
                 ID_Character.MARIANO.value: self.load_sprites("assets/sprites/mariano/win", size=(WIDTH/2, HEIGHT/2)),

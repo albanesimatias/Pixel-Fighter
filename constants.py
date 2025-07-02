@@ -51,6 +51,12 @@ class ID_Character(Enum):
     MARIANO = "Mariano"
     MATIAS = "Matias"
 
+class Scene(Enum):
+    INTRO = 0
+    SELECT = 1
+    FIGHT = 2
+    VICTORY = 3
+
 class ID_Object(Enum):
     BACKGROUND = "background"
     PROJECTILE = "projectile"

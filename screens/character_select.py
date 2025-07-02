@@ -46,7 +46,7 @@ def character_selection_screen(screen, font):
                         selected_p1 = (selected_p1 - 1) % len(CHARACTER_LIST)
                     elif event.key == pygame.K_s:
                         selected_p1 = (selected_p1 + 1) % len(CHARACTER_LIST)
-                    elif event.key == pygame.K_q:
+                    elif event.key == pygame.K_RETURN:
                         confirm_p1 = True
 
         draw_character_select(screen, font, selected_p1, bot_select, confirm_p1, confirm_p2)
