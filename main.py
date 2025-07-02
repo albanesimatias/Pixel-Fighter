@@ -122,6 +122,9 @@ while FIGHTING['is_running']:
     draw_health_bars(screen, player.hp, player2.hp)
     draw_timer(screen, font, WIDTH)
 
+    if player.hp <= 0 or player2.hp <= 0:
+        FIGHTING['is_running'] = False
+
     pygame.display.flip()
 
 thread_bot.join()
