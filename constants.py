@@ -25,6 +25,7 @@ STATE_EXIT = "exit"
 
 MENU_OPTIONS = ["PLAY", "EXIT"]
 
+
 class State(Enum):
     IDLE = 1
     MOVE = 2
@@ -41,9 +42,11 @@ class Sound(Enum):
     KICKED = 4
     LOOP = 5
 
+
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1
+
 
 class ID_Character(Enum):
     ESTEBAN = "Esteban"
@@ -51,19 +54,23 @@ class ID_Character(Enum):
     MARIANO = "Mariano"
     MATIAS = "Matias"
 
+
 class Scene(Enum):
     INTRO = 0
     SELECT = 1
     FIGHT = 2
     VICTORY = 3
 
+
 class ID_Object(Enum):
     BACKGROUND = "background"
     PROJECTILE = "projectile"
 
+
 class ID_Scene(Enum):
     WIN = "win"
     EMPATE = "empate"
+
 
 controls = {
     "left": pygame.K_a,
@@ -83,28 +90,29 @@ controls2 = {
     "block": pygame.K_RSHIFT
 }
 
-SPACING= 60
-BASE_Y= 150
+SPACING = 60
+BASE_Y = 150
 
 
 PPM = 30
 WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120
-SHOOT_COOLDDOWN =800
-ATTACK_COOLDOWN=500 
-CHARACTER_WIDTH=40
-CHARACTER_HP=100
-COOLDOWN_ANIM=100
-DENSITY=1
-FRICTION=0.2
+SHOOT_COOLDDOWN = 800
+ATTACK_COOLDOWN = 500
+CHARACTER_WIDTH = 40
+CHARACTER_HP = 100
+COOLDOWN_ANIM = 100
+DENSITY = 1
+FRICTION = 0.2
 
 
 X_TRESHOLD = 5
+Y_TRESHOLD = 12  # Sirve para determinar si el proyectil debe tener velocidad vertical hacia abajo o no.
 CHANCE_ATTACK = 0.6
 CHANCE_BLOCK = 0.4
 SLEEP_TIME = 0.4
 
-SLEEP=0.5
+SLEEP = 0.5
 
-VOLUME=0.2
+VOLUME = 0.2
 
-SPRITES_SIZE=(188,128)
+SPRITES_SIZE = (188, 128)
