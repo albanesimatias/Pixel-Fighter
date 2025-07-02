@@ -52,7 +52,7 @@ python3 main.py  # si el anterior no funciona
 - `F`: Ataque cuerpo a cuerpo
 - `G`: Bloquear
 - `S`: Ataque a distancia
-
+- `Enter`: Seleccion
 ---
 
 ## 🧩 Características del juego
@@ -75,21 +75,14 @@ python3 main.py  # si el anterior no funciona
 
 ---
 
-## 📸 Capturas
-
-```
-![Gameplay](assets/screenshots/gameplay1.png)
-```
-
----
-
 ## 👨‍💻 Créditos
 
-Nicolas Vazquez
-Cristian Cespedes
-Matias Albanesi
-Mara Guerrera
-Pablo vivas
+- Nicolas Vazquez
+- Cristian Cespedes
+- Matias Albanesi
+- Mara Guerrera
+- Pablo vivas
+
 ---
 
 ## 📄 Licencia
