@@ -6,12 +6,6 @@ from sound_manager import sound_manager
 
 from projectile import Projectile
 
-
-
-#PPM = 30  # pixeles por metro
-#WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120  # dimensiones del sprite base
-
-
 class Character:
     def __init__(self, world, x, y, controls, name=ID_Character.ESTEBAN.value):
         self.name = name
@@ -67,8 +61,6 @@ class Character:
                 'evt_end_animation': self.idle
             },
         }
-
-    # === funciones de estado ===
 
     def idle(self):
         self.state = State.IDLE
@@ -150,19 +142,15 @@ class Character:
 
     def update_character_direction(self, rival):
         if rival.body.position.x > self.body.position.x:
-            self.direction = Direction.RIGHT   # mira a la derecha
+            self.direction = Direction.RIGHT
         else:
-            self.direction = Direction.LEFT  # mira a la izquierda
-
-    # === Entrada de evento FSM ===
+            self.direction = Direction.LEFT
 
     def execute(self, evento):
         actions = self.matriz_estados.get(self.state, {})
         function = actions.get(evento)
         if function:
             function()
-
-    # === Entrada del jugador ===
 
     def event_handler(self, key_words):
         if self.state in {State.BLOCK, State.KICKED, State.DISTANCE_ATTACK} and self.in_animation:
@@ -203,8 +191,6 @@ class Character:
 
         self.body.linearVelocity = (new_vel[0], self.body.linearVelocity.y)
 
-    # === Verificación de colisiones entre personajes ===
-
     def hit_check(self, enemy):
         if self.state == State.ATTACK and self.rect_hit and not self.has_attacked:
             rect_otro = enemy.get_rect()
@@ -232,14 +218,11 @@ class Character:
                     else:
                         enemy.block_succesfull()
 
-    # === Posición física ===
-
     def get_rect(self):
         x = int(self.body.position.x * PPM)
         y = int(self.body.position.y * PPM)
         return pygame.Rect(x - 60, y - 128, 64, 128)
 
-    # === Animación ===
 
     def update(self):
         if abs(self.body.linearVelocity.y) < 0.01:
@@ -256,15 +239,14 @@ class Character:
                     self.execute('evt_end_animation')
 
         for proj in self.projectiles:
-            proj.update()  # elimina si está muy cerca de los bordes
-        self.projectiles = [p for p in self.projectiles if p.alive]  # Eliminar proyectiles muertos
+            proj.update() 
+        self.projectiles = [p for p in self.projectiles if p.alive]
 
     def draw(self, screen):
         pos = self.body.position
         x = int(pos[0] * PPM)
         y = int(pos[1] * PPM)
 
-        # image = self.sprites[self.state][self.frame]
         image = Sprite.get_instance().get_sprite_frame(self.name, self.state, self.frame)
         if self.direction == Direction.LEFT:
             image = pygame.transform.flip(image, True, False)
@@ -272,7 +254,6 @@ class Character:
         width_sprite = image.get_width()
         alto_sprite = image.get_height()
 
-        # Centramos horizontalmente y dibujamos desde los pies
         screen.blit(image, (x - width_sprite // 2, y - alto_sprite))
 
         for proj in self.projectiles:

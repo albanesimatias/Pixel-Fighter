@@ -6,7 +6,7 @@ def main_menu_screen(screen, font, options):
     clock = pygame.time.Clock()
 
     while True:
-        screen.fill((10, 10, 30))  # Fondo oscuro azul
+        screen.fill((10, 10, 30))
 
         title = font.render("Pixel-Fighter", True, (255, 255, 255))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 100))

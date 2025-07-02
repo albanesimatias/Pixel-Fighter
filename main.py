@@ -1,15 +1,13 @@
 from Box2D.b2 import world as b2World
 from Box2D import b2World, b2PolygonShape
-from sound_manager import SoundManager
 from screens.menu import main_menu_screen
 from screens.character_select import character_selection_screen
 
 from sound_manager import sound_manager
-from character import Character  # asumimos que guardaste la clase arriba aquí
-from background import Background  # asumimos que guardaste la clase arriba aquí
+from character import Character 
+from background import Background 
 from screens.victory_screen import victory_screen
 from constants import *
-import IA_player
 import IA_player_hard
 import threading
 from timer import draw_timer, timer_thread
@@ -82,7 +80,6 @@ class Game:
 
             FIGHTING['is_running'] = True
 
-            # thread_bot = threading.Thread(target=IA_player.IA_PLAYER, daemon=True)
             thread_bot = threading.Thread(target=IA_player_hard.IA_PLAYER, args=(self.player, self.player2), daemon=True)
             thread_timer = threading.Thread(target=timer_thread, daemon=True)
             thread_bot.start()
@@ -112,36 +109,31 @@ class Game:
                 FIGHTING['is_running'] = False
 
         key_words = pygame.key.get_pressed()
-        key_words2 = IA_player_hard.key_words  # IA_player.key_words
+        key_words2 = IA_player_hard.key_words
 
         self.player.event_handler(key_words)
         self.player2.event_handler(key_words2)
 
     def update(self):
-        # Avanzar física
         self.world.Step(1.0 / FPS, 6, 2)
 
-        # Actualizar personajes
         self.player.update()
         self.player2.update()
 
         self.detect_collisions()
 
-        # Actualizar dirección de los personajes para que miren al oponente
         self.player.update_character_direction(self.player2)
         self.player2.update_character_direction(self.player)
 
         self.background.update()
 
     def detect_collisions(self):
-        # Comprobar colisiones
         self.player.hit_check(self.player2)
         self.player2.hit_check(self.player)
         self.player.projectile_hit_check(self.player2)
         self.player2.projectile_hit_check(self.player)
 
     def draw(self):
-        # Dibujar
         self.background.draw(self.screen)
         self.player.draw(self.screen)
         self.player2.draw(self.screen)

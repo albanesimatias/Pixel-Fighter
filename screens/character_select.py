@@ -2,10 +2,10 @@ import pygame
 from random import randint
 from constants import *
 
-CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Dario", "Matias"]  # Podés expandir esta lista
+CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Matias"] 
 
 def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, confirm_p2):
-    screen.fill((15, 15, 30))  # Fondo oscuro
+    screen.fill((15, 15, 30))
 
     title = font.render("Characters", True, (255, 255, 255))
     screen.blit(title, (screen.get_width() // 2 - title.get_width() // 2, 40))
@@ -20,7 +20,6 @@ def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, co
         screen.blit(name_p1, (screen.get_width() // 4 - name_p1.get_width() // 2, BASE_Y + i * SPACING))
         screen.blit(name_p2, (3 * screen.get_width() // 4 - name_p2.get_width() // 2, BASE_Y + i * SPACING))
 
-    # Indicadores de confirmación
     if confirm_p1:
         locked = font.render("✓", True, (0, 255, 0))
         screen.blit(locked, (screen.get_width() // 4 + 80, BASE_Y + selected_p1 * SPACING))

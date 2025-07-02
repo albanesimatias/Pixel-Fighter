@@ -9,11 +9,11 @@ BAR_SPACING = 10
 Y_KO = 30
 RED_HEALTH = (180, 0, 0)
 YELLOW_HEALTH = (255, 215, 0)
-FPS = 30
+FPS = 60
 PPM = 30
 FIGHTING = {"is_running": True}
 
-ROUND_DURATION = 60  # segundos
+ROUND_DURATION = 60
 time_round = [ROUND_DURATION]
 timer_mtx = threading.Lock()
 
@@ -77,13 +77,12 @@ controls2 = {
     "block": pygame.K_RSHIFT
 }
 
-#character_select
 SPACING= 60
 BASE_Y= 150
 
-#character
-PPM = 30  # pixeles por metro
-WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120  # dimensiones del sprite base
+
+PPM = 30
+WIDTH_SPRITE, HEIGHT_SPRITE = 110, 120
 SHOOT_COOLDDOWN =800
 ATTACK_COOLDOWN=500 
 CHARACTER_WIDTH=40
@@ -92,17 +91,14 @@ COOLDOWN_ANIM=100
 DENSITY=1
 FRICTION=0.2
 
-#IA_PLAYER_HARD
+
 X_TRESHOLD = 5
 CHANCE_ATTACK = 0.6
 CHANCE_BLOCK = 0.4
 SLEEP_TIME = 0.4
 
-#IA_PLAYER
 SLEEP=0.5
 
-#sound_manager
 VOLUME=0.2
 
-#sprites
 SPRITES_SIZE=(188,128)
