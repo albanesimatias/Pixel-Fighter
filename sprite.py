@@ -51,6 +51,15 @@ class Sprite:
                 State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/maximo/lanzar", size=(94*2, 64*2)),
                 ID_Object.PROJECTILE: self.load_sprites("assets/sprites/maximo/proyectil", size=(25, 28))
             },
+            ID_Character.MARIANO.value: {
+                State.IDLE: self.load_sprites("assets/sprites/mariano/idle", size=(94*2, 64*2)),
+                State.MOVE: self.load_sprites("assets/sprites/mariano/mover", size=(94*2, 64*2)),
+                State.ATTACK: self.load_sprites("assets/sprites/mariano/atacar", size=(94*2, 64*2)),
+                State.BLOCK: self.load_sprites("assets/sprites/mariano/bloquear", size=(94*2, 64*2)),
+                State.KICKED: self.load_sprites("assets/sprites/mariano/daño", size=(94*2, 64*2)),
+                State.DISTANCE_ATTACK: self.load_sprites("assets/sprites/mariano/lanzar", size=(94*2, 64*2)),
+                ID_Object.PROJECTILE: self.load_sprites("assets/sprites/mariano/proyectil", size=(25, 28))
+            },
             ID_Object.BACKGROUND.value: {0: self.load_sprites("assets/sprites/fondo", size=(WIDTH, HEIGHT))},
         }
 

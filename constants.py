@@ -43,6 +43,7 @@ class Direction(Enum):
 class ID_Character(Enum):
     ESTEBAN = "Esteban"
     MAXIMO = "Maximo"
+    MARIANO = "Mariano"
 
 
 class ID_Object(Enum):
