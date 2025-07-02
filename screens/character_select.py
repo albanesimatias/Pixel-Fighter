@@ -2,7 +2,8 @@ import pygame
 from random import randint
 from constants import *
 
-CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Matias"] 
+CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Matias"]
+
 
 def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, confirm_p2):
     screen.fill((15, 15, 30))
@@ -27,13 +28,14 @@ def draw_character_select(screen, font, selected_p1, selected_p2, confirm_p1, co
         locked = font.render("✓", True, (0, 255, 0))
         screen.blit(locked, (3 * screen.get_width() // 4 + 80, BASE_Y + selected_p2 * SPACING))
 
+
 def character_selection_screen(screen, font):
     selected_p1 = 0
     confirm_p1 = False
     confirm_p2 = True
     clock = pygame.time.Clock()
 
-    bot_select = randint(0, len(CHARACTER_LIST) - 3)
+    bot_select = randint(0, len(CHARACTER_LIST) - 1)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,7 +54,7 @@ def character_selection_screen(screen, font):
         draw_character_select(screen, font, selected_p1, bot_select, confirm_p1, confirm_p2)
         pygame.display.flip()
         clock.tick(60)
-        
+
         if confirm_p1 and confirm_p2:
             break
 

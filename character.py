@@ -6,6 +6,7 @@ from sound_manager import sound_manager
 
 from projectile import Projectile
 
+
 class Character:
     def __init__(self, world, x, y, controls, name=ID_Character.ESTEBAN.value):
         self.name = name
@@ -29,7 +30,7 @@ class Character:
         self.last_attack_time = 0
 
         self.body = world.CreateDynamicBody(position=(x / PPM, y / PPM), fixedRotation=True)
-        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2),density=DENSITY, friction=FRICTION)
+        self.body.CreatePolygonFixture(box=(WIDTH_SPRITE/PPM/2, HEIGHT_SPRITE/PPM/2), density=DENSITY, friction=FRICTION)
 
         self.matriz_estados = {
             State.IDLE: {
@@ -93,7 +94,7 @@ class Character:
         now = pygame.time.get_ticks()
         if now - self.last_attack_time < self.attack_cooldown:
             return
-        
+
         self.attack(now)
 
     def block(self):
@@ -137,7 +138,7 @@ class Character:
             self.last_update = pygame.time.get_ticks()
             x = self.body.position.x + offset
             y = self.body.position.y - 2
-            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, Sprite.get_instance().get_sprite_frame(self.name, ID_Object.PROJECTILE, 0)))
+            self.projectiles.append(Projectile(self.body.world, x, y, self.direction, Sprite.get_instance().get_sprite_frame(self.name, ID_Object.PROJECTILE, 0), self.body.position.y))
             self.last_shot_time = now
 
     def update_character_direction(self, rival):
@@ -223,7 +224,6 @@ class Character:
         y = int(self.body.position.y * PPM)
         return pygame.Rect(x - 60, y - 128, 64, 128)
 
-
     def update(self):
         if abs(self.body.linearVelocity.y) < 0.01:
             self.in_air = False
@@ -239,7 +239,7 @@ class Character:
                     self.execute('evt_end_animation')
 
         for proj in self.projectiles:
-            proj.update() 
+            proj.update()
         self.projectiles = [p for p in self.projectiles if p.alive]
 
     def draw(self, screen):
