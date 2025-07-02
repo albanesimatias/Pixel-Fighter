@@ -40,6 +40,7 @@ class Sound(Enum):
     JUMP = 2
     BLOCKED = 3
     KICKED = 4
+    LOOP = 5
 
 class Direction(Enum):
     RIGHT = 1

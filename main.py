@@ -4,6 +4,7 @@ from sound_manager import SoundManager
 from screens.menu import main_menu_screen
 from screens.character_select import character_selection_screen
 
+from sound_manager import sound_manager
 from character import Character  # asumimos que guardaste la clase arriba aquí
 from background import Background  # asumimos que guardaste la clase arriba aquí
 from screens.victory_screen import victory_screen
@@ -62,6 +63,7 @@ class Game:
         hp = max(current_hp, 0)
         return int((hp / max_hp) * bar_width)
     
+    
     def run(self):
         choice = main_menu_screen(self.screen, self.font, MENU_OPTIONS)
 
@@ -84,22 +86,23 @@ class Game:
             thread_bot.start()
             thread_timer.start()
 
-            while FIGHTING['is_running']:
-                self.clock.tick(FPS)
-
-                self.events()
-                self.update()
-                self.draw()
-
-                if self.player.hp <= 0 or self.player2.hp <= 0:
-                    FIGHTING['is_running'] = False
-        
-        #thread_bot.join()
-        #thread_timer.join()
+            self.gameloop()
 
         self.handle_victory()
 
         self.run()
+
+    @sound_manager.play_music(Sound.LOOP)
+    def gameloop(self):
+        while FIGHTING['is_running']:
+            self.clock.tick(FPS)
+
+            self.events()
+            self.update()
+            self.draw()
+
+            if self.player.hp <= 0 or self.player2.hp <= 0:
+                FIGHTING['is_running'] = False
 
     def events(self):
         for event in pygame.event.get():

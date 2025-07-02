@@ -10,6 +10,7 @@ class SoundManager:
         Sound.JUMP: pygame.mixer.Sound("assets/sounds/jump.wav"),
         Sound.BLOCKED: pygame.mixer.Sound("assets/sounds/block.wav"),
         Sound.KICKED: pygame.mixer.Sound("assets/sounds/kicked.wav"),
+        Sound.LOOP: pygame.mixer.Sound("assets/sounds/loop.wav"),
     }
 
   def play_sound(self, sound_name: str, play_before=False):
@@ -29,6 +30,7 @@ class SoundManager:
     def decorator(func):
       def wrapper(*args, **kwargs):
         sound = self.sounds.get(sound_name)
+        sound.set_volume(0.2)
         if sound:
           sound.play(loops=-1)
         try:

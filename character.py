@@ -101,8 +101,8 @@ class Character:
 
     def recive_damage(self, damage):
         self.hp -= damage
-        print(f"{self.name} recibió {damage} de recive_damage. hp restante: {self.hp}")
 
+    @sound_manager.play_sound(Sound.KICKED)
     def kicked(self):
         self.state = State.KICKED
         self.frame = 0
@@ -110,6 +110,7 @@ class Character:
         self.last_update = pygame.time.get_ticks()
         self.rect_hit = None
 
+    @sound_manager.play_sound(Sound.BLOCKED)
     def block_succesfull(self):
         print(f"{self.name} bloqueó el ataque.")
         # Puede reproducir animación o simplemente seguir bloqueando
