@@ -1,4 +1,5 @@
 import pygame
+import threading
 from enum import Enum
 
 WIDTH, HEIGHT = 800, 500
@@ -11,7 +12,11 @@ YELLOW_HEALTH = (255, 215, 0)
 FPS = 30
 PPM = 30
 FIGHTING = {"is_running": True}
+fighting_mtx = threading.Lock()
+
 ROUND_DURATION = 60  # segundos
+time_round = [ROUND_DURATION]
+timer_mtx = threading.Lock()
 
 STATE_MENU = "menu"
 STATE_SELECT = "select"

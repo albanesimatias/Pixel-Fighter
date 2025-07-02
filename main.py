@@ -10,7 +10,7 @@ from screens.victory_screen import victory_screen
 from constants import *
 import IA_player
 import threading
-from timer import draw_timer
+from timer import draw_timer, timer_thread
 
 
 pygame.init()
@@ -80,11 +80,11 @@ if choice == "play":
     player2 = Character(world, WIDTH * 0.8, 300, controls2, name=str_player2)
 
 
-# ⏱️ Configuración del round
-start_ticks = pygame.time.get_ticks()
+thread_bot = threading.Thread(target=IA_player.IA_PLAYER)
+thread_timer = thread = threading.Thread(target=timer_thread)
+thread_bot.start()
+thread_timer.start()
 
-thread = threading.Thread(target=IA_player.IA_PLAYER)
-thread.start()
 while FIGHTING['is_running']:
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -114,24 +114,18 @@ while FIGHTING['is_running']:
     player.update_character_direction(player2)
     player2.update_character_direction(player)
 
-    # ⏱️ Cronómetro y cálculo de tiempo restante
-    elapsed_seconds = (pygame.time.get_ticks() - start_ticks) // 1000
-    time_left = max(0, ROUND_DURATION - elapsed_seconds)
-
     # Dibujar
     background.update()
     background.draw(screen)
     player.draw(screen)
     player2.draw(screen)
     draw_health_bars(screen, player.hp, player2.hp)
-    draw_timer(screen, font, time_left, WIDTH)
-
-    if player.hp <= 0 or player2.hp <= 0 or time_left <= 0:
-        FIGHTING['is_running'] = False
+    draw_timer(screen, font, WIDTH)
 
     pygame.display.flip()
 
-thread.join()
+thread_bot.join()
+thread_timer.join()
 winner = player.name if player.hp > 0 else player2.name
 winner = 'empate' if player.hp == player2.hp else winner
 victory_screen(screen, font, WIDTH, HEIGHT, winner)
