@@ -9,7 +9,16 @@ BAR_SPACING = 10
 Y_KO = 30
 RED_HEALTH = (180, 0, 0)
 YELLOW_HEALTH = (255, 215, 0)
+
 FPS = 60
+
+CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Matias"]
+SPACING = 60
+BASE_Y = 80
+BASE_X_P1 = 50
+BASE_X_P2 = 620
+UPDATE_SELECT = 200
+
 PPM = 30
 FIGHTING = {"is_running": True}
 
@@ -25,7 +34,6 @@ STATE_EXIT = "exit"
 
 MENU_OPTIONS = ["PLAY", "EXIT"]
 
-
 class State(Enum):
     IDLE = 1
     MOVE = 2
@@ -34,7 +42,6 @@ class State(Enum):
     KICKED = 5
     DISTANCE_ATTACK = 6
 
-
 class Sound(Enum):
     ATTACK = 1
     JUMP = 2
@@ -42,11 +49,9 @@ class Sound(Enum):
     KICKED = 4
     LOOP = 5
 
-
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1
-
 
 class ID_Character(Enum):
     ESTEBAN = "Esteban"
@@ -54,24 +59,25 @@ class ID_Character(Enum):
     MARIANO = "Mariano"
     MATIAS = "Matias"
 
-
 class Scene(Enum):
     INTRO = 0
     SELECT = 1
     FIGHT = 2
     VICTORY = 3
 
-
 class ID_Object(Enum):
     BACKGROUND = "background"
     PROJECTILE = "projectile"
-
 
 class ID_Scene(Enum):
     WIN = "win"
     EMPATE = "empate"
 
-
+class Color(Enum):
+    PINK = (255, 200, 200)
+    GRAY = (100, 100, 100)
+    BLUE = (150, 200, 255)
+    
 controls = {
     "left": pygame.K_a,
     "right": pygame.K_d,
@@ -89,9 +95,6 @@ controls2 = {
     "attack": pygame.K_RCTRL,
     "block": pygame.K_RSHIFT
 }
-
-SPACING = 60
-BASE_Y = 80
 
 
 PPM = 30
