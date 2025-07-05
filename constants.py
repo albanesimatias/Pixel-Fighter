@@ -10,8 +10,12 @@ Y_KO = 30
 RED_HEALTH = (180, 0, 0)
 YELLOW_HEALTH = (255, 215, 0)
 
+BASE_X_MENU = 340
+BASE_Y_MENU = 160
+
 FPS = 60
 
+### Scene Select ###
 CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Matias"]
 SPACING = 60
 BASE_Y = 80
@@ -77,6 +81,7 @@ class Color(Enum):
     PINK = (255, 200, 200)
     GRAY = (100, 100, 100)
     BLUE = (150, 200, 255)
+    YELLOW = (255, 255, 0)
     
 controls = {
     "left": pygame.K_a,
