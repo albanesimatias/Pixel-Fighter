@@ -2,18 +2,32 @@ import pygame
 import threading
 from enum import Enum
 
+TITLE = "Pixel Fighter"
+
+FONT_SIZE = 36
+FONT_SIZE_TIMER = 48
+FONT_FAMILY_TIMER = "arialblack"
+
 WIDTH, HEIGHT = 800, 500
-HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT = 200, 15
+HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT = 300, 15
 MAX_HP = 100
 BAR_SPACING = 10
-Y_KO = 30
-RED_HEALTH = (180, 0, 0)
-YELLOW_HEALTH = (255, 215, 0)
+
+X_TIMER = 387
+Y_TIMER = 0
+X_SHADOW_TIMER = X_TIMER + 2
+Y_SHADOW_TIMER = Y_TIMER + 2
+
+TITLE_KO = "KO"
+X_KO = 385
+Y_KO = 20
 
 BASE_X_MENU = 340
 BASE_Y_MENU = 160
 
 FPS = 60
+
+GRAVITY = 30
 
 ### Scene Select ###
 CHARACTER_LIST = ["Esteban", "Maximo", "Mariano", "Matias"]
@@ -82,6 +96,8 @@ class Color(Enum):
     GRAY = (100, 100, 100)
     BLUE = (150, 200, 255)
     YELLOW = (255, 255, 0)
+    RED = (180, 0, 0)
+    BLACK = (0, 0, 0)
     
 controls = {
     "left": pygame.K_a,
