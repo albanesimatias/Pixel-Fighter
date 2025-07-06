@@ -1,5 +1,4 @@
 import pygame
-from Box2D.b2 import dynamicBody
 from constants import *
 from sprite import Sprite
 from sound_manager import sound_manager
@@ -52,8 +51,12 @@ class Character:
                 'evt_end_animation': self.idle
             },
             State.BLOCK: {
-                'evt_end_animation': self.idle,
-                'evt_kicked': self.block_succesfull
+                'evt_kicked': self.block_succesfull,
+                'evt_attack': self.can_attack,
+                'evt_block': self.block,
+                'evt_left': self.move,
+                'evt_right': self.move,
+                'evt_up': self.can_jump,
             },
             State.KICKED: {
                 'evt_end_animation': self.idle
@@ -100,7 +103,6 @@ class Character:
     def block(self):
         self.state = State.BLOCK
         self.frame = 0
-        self.in_animation = True
         self.last_update = pygame.time.get_ticks()
         self.rect_hit = None
 
@@ -235,7 +237,7 @@ class Character:
 
             if self.frame >= Sprite.get_instance().get_sprite_len(self.name, self.state):
                 self.frame = 0
-                if self.state in {State.ATTACK, State.BLOCK, State.KICKED, State.DISTANCE_ATTACK}:
+                if self.state in {State.ATTACK, State.KICKED, State.DISTANCE_ATTACK}:
                     self.execute('evt_end_animation')
 
         for proj in self.projectiles:
