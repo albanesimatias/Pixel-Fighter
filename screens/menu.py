@@ -38,9 +38,9 @@ def main_menu_screen(screen, font, options):
         draw_menu(screen)
 
         for i, option in enumerate(options):
-            color = (255, 255, 0) if i == selected else (150, 150, 150)
+            color = Color.YELLOW.value if i == selected else Color.GRAY.value
             text = font.render(option, True, color)
-            screen.blit(text, (WIDTH // 2 - text.get_width(), 160 + i * 60))
+            screen.blit(text, (BASE_X_MENU, BASE_Y_MENU + i * SPACING))
 
         pygame.display.flip()
         clock.tick(FPS)

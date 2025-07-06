@@ -18,32 +18,31 @@ class Game:
         pygame.init()
 
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Pixel Fighter")
+        pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
 
-        self.font = pygame.font.SysFont(None, 36)
-        self.font_timer = pygame.font.SysFont("arialblack", 60)
+        self.font = pygame.font.SysFont(None, FONT_SIZE)
+        self.font_timer = pygame.font.SysFont(FONT_FAMILY_TIMER, FONT_SIZE_TIMER)
 
     def draw_health_bars(self, surface, p1_healt, p2_healt):
         prog_p1 = self.calculate_health_width(p1_healt, MAX_HP, HEALTH_BAR_WIDTH)
         prog_p2 = self.calculate_health_width(p2_healt, MAX_HP, HEALTH_BAR_WIDTH)
 
-        TEXT_KO = pygame.font.SysFont(None, 36).render("KO", True, (200, 0, 0))
-        X_KO = WIDTH // 2 - TEXT_KO.get_width() // 2
+        TEXT_KO = pygame.font.SysFont(None, FONT_SIZE).render(TITLE_KO, True, Color.YELLOW.value)
 
         X_BAR_P1 = X_KO - HEALTH_BAR_WIDTH - BAR_SPACING
         X_BAR_P2 = X_KO + TEXT_KO.get_width() + BAR_SPACING
-        Y_BAR = Y_KO + 5
+        Y_BAR = Y_KO
 
-        pygame.draw.rect(surface, RED_HEALTH, (X_BAR_P1, Y_BAR, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT))
-        pygame.draw.rect(surface, RED_HEALTH, (X_BAR_P2, Y_BAR, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT))
-        pygame.draw.rect(surface, YELLOW_HEALTH, (X_BAR_P1 + HEALTH_BAR_WIDTH - prog_p1, Y_BAR, prog_p1, HEALTH_BAR_HEIGHT))
-        pygame.draw.rect(surface, YELLOW_HEALTH, (X_BAR_P2, Y_BAR, prog_p2, HEALTH_BAR_HEIGHT))
+        pygame.draw.rect(surface, Color.RED.value, (X_BAR_P1, Y_BAR, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT))
+        pygame.draw.rect(surface, Color.RED.value, (X_BAR_P2, Y_BAR, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT))
+        pygame.draw.rect(surface, Color.YELLOW.value, (X_BAR_P1 + HEALTH_BAR_WIDTH - prog_p1, Y_BAR, prog_p1, HEALTH_BAR_HEIGHT))
+        pygame.draw.rect(surface, Color.YELLOW.value, (X_BAR_P2, Y_BAR, prog_p2, HEALTH_BAR_HEIGHT))
 
         self.screen.blit(TEXT_KO, (X_KO, Y_KO))
 
     def create_world(self):
-        self.world = b2World(gravity=(0, 30), doSleep=True)
+        self.world = b2World(gravity=(0, GRAVITY), doSleep=True)
 
         # floor (estático)
         floor = self.world.CreateStaticBody(position=(WIDTH / 2 / PPM, (HEIGHT-60) / PPM))
@@ -138,7 +137,7 @@ class Game:
         self.player.draw(self.screen)
         self.player2.draw(self.screen)
         self.draw_health_bars(self.screen, self.player.hp, self.player2.hp)
-        draw_timer(self.screen, self.font, WIDTH)
+        draw_timer(self.screen, self.font)
 
         pygame.display.flip()
 
