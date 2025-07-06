@@ -83,6 +83,11 @@ python3 main.py  # si el anterior no funciona
 - Mara Guerrera
 - Pablo vivas
 
+<p align="center">
+  <img src="integrantes.jpg" alt="Pixel-Fighter integrantes" width="400"/>
+</p>
+
+
 ---
 
 ## 📄 Licencia
